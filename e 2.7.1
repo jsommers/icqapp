@@ -1,0 +1,76 @@
+[1mdiff --git a/config/environments/development.rb b/config/environments/development.rb[m
+[1mindex 022321b..cd3c010 100644[m
+[1m--- a/config/environments/development.rb[m
+[1m+++ b/config/environments/development.rb[m
+[36m@@ -64,6 +64,7 @@[m [mRails.application.configure do[m
+   config.active_storage.service = :local[m
+   [m
+   config.hosts << "e07748ae98e9416cbdc96f5e14324804.vfs.cloud9.us-east-1.amazonaws.com"[m
+[32m+[m[32m  config.hosts << "94aa20679da74a40a31581e3e0521012.vfs.cloud9.us-east-1.amazonaws.com"[m
+ #  config.action_mailer.delivery_method = :smtp[m
+ #  config.action_mailer.smtp_settings = {[m
+ #    address:              'smtp.gmail.com',[m
+[1mdiff --git a/spec/factories.rb b/spec/factories.rb[m
+[1mindex 5d0d6c4..eabf2c5 100644[m
+[1m--- a/spec/factories.rb[m
+[1m+++ b/spec/factories.rb[m
+[36m@@ -47,4 +47,9 @@[m [mFactoryBot.define do[m
+     type { "MultiChoiceQuestion" }[m
+     qcontent { %w{one two three four} }[m
+   end[m
+[32m+[m[41m  [m
+[32m+[m[32m  factory :attendance_question do[m
+[32m+[m[32m    qname { "an attendance question" }[m
+[32m+[m[32m    type { "AttendanceQuestion" }[m
+[32m+[m[32m  end[m
+ end[m
+[1mdiff --git a/spec/features/poll_activate_spec.rb b/spec/features/poll_activate_spec.rb[m
+[1mindex fb92bc6..446e951 100644[m
+[1m--- a/spec/features/poll_activate_spec.rb[m
+[1m+++ b/spec/features/poll_activate_spec.rb[m
+[36m@@ -102,6 +102,45 @@[m [mRSpec.feature "PollActivates", type: :feature do[m
+       expect(PollResponse.find(1).response).to eq("four")[m
+     end[m
+ [m
+[32m+[m[32m    it "an active attendance poll should be visible" do[m
+[32m+[m[32m      c = FactoryBot.create(:course)[m
+[32m+[m[32m      q = FactoryBot.build( :attendance_question, :qname => "Attendance Poll", :course => c)[m
+[32m+[m[32m      c.questions << q[m
+[32m+[m[32m      q.save[m
+[32m+[m[32m      p = q.new_poll(:isopen => true, :round => 1)[m
+[32m+[m[32m      p.save[m
+[32m+[m
+[32m+[m[32m      student = FactoryBot.create(:student)[m
+[32m+[m[32m      c.students << student[m
+[32m+[m[32m      sign_in student[m
+[32m+[m[32m      visit course_path(c)[m
+[32m+[m[41m     [m
+[32m+[m[32m      #byebug implementation[m
+[32m+[m[32m      expect(page.text).to match(/Attendance Poll/)[m
+[32m+[m[32m      expect(page).to have_button("Check In Now")[m
+[32m+[m[32m      #expect button to not be on page[m
+[32m+[m[32m      #expect a "Sucessfully Signed In"[m
+[32m+[m[32m    end[m
+[32m+[m[41m    [m
+[32m+[m[41m   [m
+[32m+[m[32m    it "the attendance check in button should be disabled after student response and verification text should appear" do[m
+[32m+[m[32m      c = FactoryBot.create(:course)[m
+[32m+[m[32m      q = FactoryBot.build( :attendance_question, :qname => "Attendance Poll", :course => c)[m
+[32m+[m[32m      c.questions << q[m
+[32m+[m[32m      q.save[m
+[32m+[m[32m      p = q.new_poll(:isopen => true, :round => 1)[m
+[32m+[m[32m      p.save[m
+[32m+[m[32m      student = FactoryBot.create(:student)[m
+[32m+[m[32m      c.students << student[m
+[32m+[m[32m      sign_in student[m
+[32m+[m[32m      visit course_path(c)[m
+[32m+[m[32m      click_on "Check In Now"[m
+[32m+[m[41m     [m
+[32m+[m[32m      #byebug implementation[m
+[32m+[m[32m      expect(page).to have_button('Check In Now', disabled: true)[m
+[32m+[m[32m      expect(page.text).to match(/Attendance has been recorded/)[m
+[32m+[m[32m    end[m
+[32m+[m[41m    [m
+     it "no poll should be visible if none are active" do[m
+       c = FactoryBot.create(:course)[m
+       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)[m

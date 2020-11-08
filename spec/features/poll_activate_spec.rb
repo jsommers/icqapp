@@ -102,6 +102,45 @@ RSpec.feature "PollActivates", type: :feature do
       expect(PollResponse.find(1).response).to eq("four")
     end
 
+    it "an active attendance poll should be visible" do
+      c = FactoryBot.create(:course)
+      q = FactoryBot.build( :attendance_question, :qname => "Attendance Poll", :course => c)
+      c.questions << q
+      q.save
+      p = q.new_poll(:isopen => true, :round => 1)
+      p.save
+
+      student = FactoryBot.create(:student)
+      c.students << student
+      sign_in student
+      visit course_path(c)
+     
+      #byebug implementation
+      expect(page.text).to match(/Attendance Poll/)
+      expect(page).to have_button("Check In Now")
+      #expect button to not be on page
+      #expect a "Sucessfully Signed In"
+    end
+    
+   
+    it "the attendance check in button should be disabled after student response and verification text should appear" do
+      c = FactoryBot.create(:course)
+      q = FactoryBot.build( :attendance_question, :qname => "Attendance Poll", :course => c)
+      c.questions << q
+      q.save
+      p = q.new_poll(:isopen => true, :round => 1)
+      p.save
+      student = FactoryBot.create(:student)
+      c.students << student
+      sign_in student
+      visit course_path(c)
+      click_on "Check In Now"
+     
+      #byebug implementation
+      expect(page).to have_button('Check In Now', disabled: true)
+      expect(page.text).to match(/Attendance has been recorded/)
+    end
+    
     it "no poll should be visible if none are active" do
       c = FactoryBot.create(:course)
       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)

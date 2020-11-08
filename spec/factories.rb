@@ -47,4 +47,9 @@ FactoryBot.define do
     type { "MultiChoiceQuestion" }
     qcontent { %w{one two three four} }
   end
+  
+  factory :attendance_question do
+    qname { "an attendance question" }
+    type { "AttendanceQuestion" }
+  end
 end
