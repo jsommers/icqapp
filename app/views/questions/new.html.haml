@@ -1,23 +1,34 @@
+%link{:type => "text/css", :rel => "stylesheet", :href => "/stylesheets/new.css"}
 #main
 
-  #form
-    =form_for [@course, @q], method: :post do |f|
-      =f.label :qname, "Question text:"
-      =f.text_field :qname
-      %br
-      =f.label :type, "Question type:"
-      =f.select :type, question_types
-      %br
-      =f.label :qcontent, "Options:"
-      =f.text_area :qcontent
-      %br
-      =f.label :answer, 'Answer:'
-      =f.text_field :answer
-      %br
-      =f.label :image, "Image"
-      =f.file_field :image, :accept => 'image/png,image/gif,image/jpeg,image/pdf'
-      %br
-      =f.submit "Create question"
+  
+  
+  %h1{:class => "text-align:center d-flex justify-content-center" } Create New Question
+  .card.bg-primary
+    
+    #form.d-flex.justify-content-center
+      =form_for [@course, @q], method: :post do |f|
+        %span{:class => "text-center"}
+          =f.label :qname, "Question text:"
+          =f.text_field :qname, :placeholder => "Enter question to display"
+        %br
+        =f.label :type, "Question type:"
+        =f.select :type, question_types, :class => 'custom-select'
+        
+        =f.label :qcontent, "Options:", :id => 'question_qcontent_label'
+        // =f.text_area :qcontent, :id => 'qtext_area'
+        %button{:id => "add_option", :type => "button"} Add Option 
+        %button{:id => "remove_option", :type => "button"} Remove Option
+        #options
+        
+        =f.label :answer, 'Correct answer:', :id => 'question_answer_label'
+        =f.text_field :answer, :placeholder => "Enter correct number", :id => 'question_answer'
+        %br
+        =f.label :image, "Image:"
+        =f.file_field :image, :accept => 'image/png,image/gif,image/jpeg,image/pdf', :class => 'btn-light', :id => 'file_input'
+        %br
+        %br
+        =f.submit "Create question", :id => 'submit'
 
-  #bottom
-    =link_to "Back to question index", course_questions_path(@course)
+  #bottom.d-flex.justify-content-center
+    =link_to "Back to question index", course_questions_path(@course), :method => :get

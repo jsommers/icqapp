@@ -1,0 +1,40 @@
+.card{
+    width: 25rem;   
+    margin: 0 auto;
+    background-color: rgb(0, 112, 255) ; 
+    color: yellow;
+    padding: 2rem;
+    border-radius: 0 0 5px 5px;
+}
+
+#bottom{
+    margin-top: 2rem;
+}
+
+h1{
+    margin: 0 auto;
+    margin-top: 5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    border-radius: 5px 5px 0 0;
+    background-color: rgb(230, 233, 237);
+    width: 25rem;
+    
+}
+
+input{
+    border-radius: 5px;
+}
+
+#submit{
+    margin-left: 6rem;
+}
+
+#file_input{
+    width: 5rem;
+    color: yellow;
+}
+
+::placeholder{
+    opacity: .35;
+}

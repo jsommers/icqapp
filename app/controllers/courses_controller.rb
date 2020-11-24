@@ -19,6 +19,13 @@ class CoursesController < ApplicationController
       @poll = @course.active_poll
       @question = @course.active_question
       if @poll
+        r = @poll.poll_responses.where(:user => current_user).first
+        if @question.type == "AttendanceQuestion"
+          if r
+            flash[:notice] = "You already checked in! Wait until there is another question"
+            redirect_to courses_path and return
+          end
+        end
         @response = @poll.new_response
         @current = PollResponse.where(:poll => @poll, :user => current_user).first
         @pid = @poll.id
@@ -30,7 +37,12 @@ class CoursesController < ApplicationController
         @qname = ""
       end
       @activepoll = !!@poll
-      render 'show_student'
+      if @current != nil
+        @answered = true
+      else
+        @answered = false
+      end
+      render'show_student'
     else
       redirect_to course_questions_path(@course) and return
     end
@@ -43,7 +55,7 @@ class CoursesController < ApplicationController
       @question = AttendanceQuestion.new
       @question.course = @course
       if !@question.save
-        flash[:alert] = "Failed to save question #{question}"
+        flash[:alert] = "Failed to save question #{@question}"
         redirect_to course_questions_path(@course) and return
       end
     end
@@ -134,6 +146,7 @@ class CoursesController < ApplicationController
     numopts = params[:n].to_i
     t = params[:t] || 'm' # m, n, f
     t = t.to_sym
+
     @course = Course.where(:name => course).first
     if !@course
       flash[:notice] = "Course #{course} doesn't exist"

@@ -60,4 +60,8 @@ class AttendancePoll < Poll
   def responses
     self.poll_responses.group(:response).count
   end
+  
+  def id 
+    return self.id
+  end
 end

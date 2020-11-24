@@ -1,0 +1,9 @@
+#qcard.card
+  .card-body
+    %h3#squestion.card-title{"data-ids" => "#{@course.id} #{@qid} #{@pid}"}= @qname 
+    %h4.card-subtitle= @qprompt
+    -if @question.image.attached?
+      .card-img-top= image_tag @question.image.variant(resize: "480x480^"), :class => "imgwide"
+    %hr
+    .card-text
+      Submitted

@@ -25,13 +25,15 @@
 
       -if user_signed_in?
         #auth
-          .row.p-3.bg-primary.text-white
-            .col-1
-              =link_to octicon("unverified", :height => 28), courses_path, :class => "icon"
+          .row.p-3.bg-primary.text-whitex
             .col-8
               -# %span.smile= octicon "smiley", :height => 28
               %span.smile.font-weight-bolder Hello,
               %span.smile= "#{current_user.email}."
-            .col-3= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-light"
+            .col-3
+              -if current_user.has_active_class?
+                =link_to "Current question", @course, :class =>"btn btn-light"
+              =link_to "My courses", courses_path, :class => "btn btn-light"
+              = link_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-warning"
 
       = yield

@@ -9,16 +9,23 @@
 # :password => "xyz"
 Rails.application.eager_load!
 
-User.create!(:email => 'jsommers@colgate.edu', :admin => true)
+
+User.create!(:email => 'wworrell@colgate.edu', :admin => true)
+
+User.create!(:email => 'mmilke@colgate.edu', :admin => true)
+
 c101 = Course.create!(:name => 'COSC101S20', :daytime => 'TR 8:30-9:45')
 attendance101 = AttendanceQuestion.create!(:qname => "Attendance check in", :course => c101)
 
 c301 = Course.create!(:name => 'COSC301S20', :daytime => 'TR 9:55-11:10')
 attendance301 = AttendanceQuestion.create!(:qname => "Attendance check in", :course => c301)
 
+#sommersmeister@gmail.com
 std101 = %w{
-sommersmeister@gmail.com
+dingflag@gmail.com
+
 }
+
 
 puts "#{c101}"
 std101.each do |email|
@@ -75,4 +82,6 @@ slist = []
   r = nump.new_response(:response => rand(10), :user => s)
   r.save!
 end
+
+exit
 

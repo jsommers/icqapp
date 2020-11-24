@@ -279,13 +279,64 @@ var ICQ = (function() {
 
     return {
         init: function() {
+            jQuery("#remove_option").hide();
+            jQuery("#add_option").show();
+            document.getElementById("question_answer_label").style.visibility = "hidden";
+            document.getElementById("question_answer").style.visibility = "hidden";
+            
             jQuery("#question_type").on('change', function() {
                 if (jQuery("#question_type").val() == "MultiChoiceQuestion") {
                     jQuery("#question_qcontent").show();
-                } else {
+                    jQuery("#question_qcontent_label").show();
+                    jQuery("#add_option").show();
+                    document.getElementById("question_answer_label").style.visibility = "hidden";
+                    document.getElementById("question_answer").style.visibility = "hidden";
+                    jQuery("#question_answer_label").hide();
+                    
+                } 
+                else{
                     jQuery("#question_qcontent").hide();
+                    jQuery("#question_qcontent_label").hide();
+                    jQuery("#add_option").hide();
+                    
+                    if (jQuery("#question_type").val() == "NumericQuestion"){
+                        document.getElementById("question_answer_label").style.visibility = "visible";
+                        document.getElementById("question_answer").style.visibility = "visible";
+                        jQuery("#question_answer_label").show();
+                        
+                    }
+                    
+                    else{
+                        document.getElementById("question_answer_label").style.visibility = "hidden";
+                        document.getElementById("question_answer").style.visibility = "hidden";
+                    }
+                    // show options text area
+                    // hide answer input
                 }
             });
+            
+            var opts = 0;
+            jQuery("#add_option").on('click', function(){
+                opts+=1;
+                console.log(opts);
+                jQuery("#remove_option").show();
+                jQuery("#options").append("<span id=optspan><input type=text name='options[]' id='extraoption' required> <input type=radio name=correctanswer id='optionselect' required><span/>");
+                jQuery("#optspan").attr("id", "optspan" + opts);
+                jQuery("#extraoption").attr("id", "option" + opts);
+                jQuery("#optionselect").attr("value", opts);
+                jQuery("#optionselect").attr("id", "optionselect" + opts);
+            });
+            
+            jQuery("#remove_option").on('click', function(){
+                var optionToremove = "optspan" + opts;
+                jQuery("#"+optionToremove).remove();
+                opts-=1;
+                console.log(opts);
+                if (opts === 0){   
+                    jQuery("#remove_option").hide(); 
+                }
+            });
+            
             jQuery("#notify").on('ajax:success', function() {
                 jQuery("#notify").removeClass("btn-warning");
                 jQuery("#notify").addClass("btn-primary");

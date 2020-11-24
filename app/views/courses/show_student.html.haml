@@ -1,6 +1,8 @@
 #main
-  -if @activepoll
+  -if @activepoll && !@answered
     =render :partial => "active"
+  -elsif @answered
+    =render :partial => 'answered'
   -else
     =render :partial => "noactive"
 
