@@ -10,6 +10,10 @@
 Rails.application.eager_load!
 
 User.create!(:email => 'jsommers@colgate.edu', :admin => true)
+User.create!(:email => 'bboussayoud@colgate.edu', :admin => true)
+User.create!(:email => 'gkong@colgate.edu', :admin => true)
+User.create!(:email => 'wyi@colgate.edu', :admin => true)
+User.create!(:email => 'jjakovleski@colgate.edu', :admin => true)
 c101 = Course.create!(:name => 'COSC101S20', :daytime => 'TR 8:30-9:45')
 attendance101 = AttendanceQuestion.create!(:qname => "Attendance check in", :course => c101)
 
@@ -26,10 +30,13 @@ std101.each do |email|
   c101.students << std
 end
 
-exit
 
 puts "#{c301}"
 std301 = %w{
+bilal.boussayoud@gmail.com
+joakim.jakovleski@gmail.com
+blazzing710@gmail.com
+leetlegk@gmail.com
 }
 
 std301.each do |email|
@@ -49,6 +56,11 @@ options = ["Syntax error", "Runtime error", "Logic error"]
 mc = MultiChoiceQuestion.create!(:qname => "What kind of error does this code exhibit?", :qcontent => options, :answer => "Logic error", :course => c)
 mcp = mc.new_poll(:round => 1)
 mcp.save!
+
+# ms = MultiSelQuestion.create!(:qname => "What option(s) best evalutates the action of this sequence?", :qcontent => options, :answer => "Repetition", :course => c)
+# msp = ms.new_poll(:round => 1)
+# msp.save!
+
 fr = FreeResponseQuestion.create!(:qname => "What does this image make you think of?", :course => c)
 fr.image.attach(io: File.open('testimg.png'), filename: 'testimg.png')
 frp = fr.new_poll(:round => 1)

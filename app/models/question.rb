@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   validates :qname, presence: true
   validates_associated :course
   validate :options_for_multichoice
+  validate :options_for_multisel
   enum content_type: %i(html markdown plain)
   has_one_attached :image
 
@@ -21,8 +22,14 @@ class Question < ApplicationRecord
 
 protected
   def options_for_multichoice
-    if type == "MultiChoiceQuestion" and qcontent.length < 2
+    if type == "MultiChoiceQuestion" and !qcontent.length
       errors.add(:qcontent, "missing newline-separated options for multichoice question")
+    end
+  end
+  
+  def options_for_multisel
+    if type == "MultiSelQuestion" and !qcontent.length
+      errors.add(:qcontent, "missing newline-separated options for multiselection question")
     end
   end
 
@@ -41,6 +48,22 @@ class MultiChoiceQuestion < Question
 
   def prompt
     "Select one option"
+  end
+end
+
+class MultiSelQuestion < Question
+  serialize :qcontent, Array
+  
+  def qcontent
+    read_attribute(:qcontent) || write_attribute(:qcontent, [])
+  end
+  
+  def new_poll(h={})
+    Poll.new(:type => "MultiSelPoll", :question => self, **h)
+  end
+  
+  def prompt
+    "Select one(s) that best answers this question"
   end
 end
 
