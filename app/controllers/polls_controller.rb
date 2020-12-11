@@ -5,12 +5,14 @@ class PollsController < ApplicationController
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @polls = @question.polls
-  end
+    @current_user = current_user
+  end 
 
   def show
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
+    @current_user = current_user
     if request.xhr?
         render json: { responses: @poll.responses, type: @poll.type, answer: @poll.question.answer } and return
     end
@@ -31,6 +33,7 @@ class PollsController < ApplicationController
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
+    @current_user = current_user
     if !request.xhr?
         redirect_to course_question_poll_path(@course, @question, @poll) and return
     end
@@ -51,6 +54,7 @@ class PollsController < ApplicationController
   def create
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
+    @current_user = current_user
     Poll.closeall(@course)
     num = @question.polls.maximum(:round).to_i
     @poll = @question.new_poll
@@ -69,6 +73,7 @@ class PollsController < ApplicationController
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
+    @current_user = current_user
     @poll.update(:isopen => false)
     flash[:notice] = "Poll stopped for #{@question.qname}"
     redirect_to course_question_poll_path(@course, @question, @poll)
@@ -82,4 +87,5 @@ class PollsController < ApplicationController
     flash[:notice] = "Poll #{@poll.round} for #{@question.qname} destroyed"
     redirect_to course_question_polls_path(@course, @question)
   end
+  
 end

@@ -19,6 +19,13 @@ class CoursesController < ApplicationController
       @poll = @course.active_poll
       @question = @course.active_question
       if @poll
+        r = @poll.poll_responses.where(:user => current_user).first
+        if @question.type == "AttendanceQuestion"
+          if r
+            flash[:notice] = "You already checked in! Wait until there is another question"
+            redirect_to courses_path and return
+          end
+        end
         @response = @poll.new_response
         @current = PollResponse.where(:poll => @poll, :user => current_user).first
         @pid = @poll.id
@@ -30,7 +37,12 @@ class CoursesController < ApplicationController
         @qname = ""
       end
       @activepoll = !!@poll
-      render 'show_student'
+      if @current != nil
+        @answered = true
+      else
+        @answered = false
+      end
+      render'show_student'
     else
       redirect_to course_questions_path(@course) and return
     end
@@ -43,7 +55,7 @@ class CoursesController < ApplicationController
       @question = AttendanceQuestion.new
       @question.course = @course
       if !@question.save
-        flash[:alert] = "Failed to save question #{question}"
+        flash[:alert] = "Failed to save question #{@question}"
         redirect_to course_questions_path(@course) and return
       end
     end
@@ -80,29 +92,112 @@ class CoursesController < ApplicationController
       @attendance_matrix << thisrow
     end
   end
-
+  
+  
+  
   def question_report
     @course = Course.find(params[:id])
     redirect_to course_path(@course) if current_user.student? 
 
     pollids = @course.questions.where.not(:type => "AttendanceQuestion").joins(:polls).select("polls.id")
 
-    @response_matrix = []  
+
+    @response_matrix = [] 
+    @no_responses = true
+    @break_groups = []
+
     pollids.each do |pid|
       q = Poll.find(pid.id).question
+      bg = Array.new(q.breakout){Array.new(0)}
       responseset = PollResponse.where(:poll_id => pid.id).joins(:user)
-      thisrow = [ q.created_at.strftime("%Y-%m-%d"), q.id, pid.id, q.type[0] ]
-
+      if responseset.present?
+        @no_responses = false
+      end
+# <<<<<<< CreateProfessorDashboard
+#       if responseset.present?
+#         @no_responses = false
+#       end
+#       # thisrow = [ q.created_at.strftime("%Y-%m-%d"), q.id, pid.id, q.type[0] ]
+#       thisrow = [q.id, q.qname]
+#       count = 0
+#       total_correct = 0
+# =======
+      # thisrow = [ q.created_at.strftime("%Y-%m-%d"), q.id, pid.id, q.type[0] ]
+      curr = 0
       @course.students.each do |s|
         resp = responseset.where(:user_id => s.id).first 
         if resp
-          thisrow << (q.answer ? (q.answer == resp.response ? "1" : "0") : "!")
-        else
-          thisrow << "-"
+          bg[curr] << s.email
+          curr += 1 
+          curr = curr % q.breakout
         end
       end
+      @course.students.each do |s|
+        resp = responseset.where(:user_id => s.id).first 
+        if !resp
+          bg[curr] << s.email
+          curr += 1 
+          curr = curr % q.breakout
+        end
+      end
+      
+# >>>>>>> master
+      
+      # thisrow = [ q.created_at.strftime("%Y-%m-%d"), q.id, pid.id, q.type[0] ]
+      thisrow = [q.id, q.qname]
+      count = 0
+      total_correct = 0
+      
+      @course.students.each do |s|
+        resp = responseset.where(:user_id => s.id).first 
+        if resp.present?
+          @no_responses = false
+        end
+        student_arr = []
+        if resp
+
+          count += 1
+          if (q.answer)
+            
+            if(q.type == "NumericQuestion")
+              student_resp = resp.response.round.to_s
+            else
+              student_resp = resp.response
+            end
+          
+            if (q.answer == student_resp)
+              # thisrow << "1"
+              total_correct += 1.0
+              student_arr = [s.email, student_resp,"✓"]
+            else
+              # thisrow << "0"
+              student_arr = [s.email, student_resp, "X"]
+              
+            end
+            
+          else
+            # thisrow << "!"
+            student_arr = [s.email, student_resp, "NA"]
+          end
+        else
+          student_arr = [s.email,"no response", "NA"]
+        end
+        thisrow << student_arr
+      end
+        
+      thisrow << count
+      if count > 0
+        thisrow << (total_correct / count) * 100.0
+      else
+        thisrow << 0.0
+      end
       @response_matrix << thisrow
+      @break_groups << bg
+      
     end
+    
+    
+    
   end
 
   def status
@@ -134,6 +229,7 @@ class CoursesController < ApplicationController
     numopts = params[:n].to_i
     t = params[:t] || 'm' # m, n, f
     t = t.to_sym
+
     @course = Course.where(:name => course).first
     if !@course
       flash[:notice] = "Course #{course} doesn't exist"

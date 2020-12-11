@@ -6,6 +6,7 @@ class CreateQuestions < ActiveRecord::Migration[5.2]
       t.text :answer
       t.string :type
       t.string :content_type
+      t.integer :breakout
       t.references :course, foreign_key: true
 
       t.timestamps

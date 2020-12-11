@@ -33,8 +33,11 @@
         %td= show_image q.image
         %td= time_tag q.created_at.localtime, :format => "%Y/%m/%d"
         %td= link_to "Delete", course_question_path(@course, q), :method => :delete, :class => "btn btn-danger", :id => "destroy_#{q.qname}"
-        %td= link_to "Activate", course_question_polls_path(@course, q), :method => :post, :id => "create_#{q.qname}", :class => "btn btn-success"
-
+        -if !q.active_poll
+          %td= link_to "Activate", course_question_polls_path(@course, q), :method => :post, :id => "create_#{q.qname}", :class => "btn btn-success"
+        -else
+          %td= "Poll Active"
+      
   #bottom
     %p= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary"
 

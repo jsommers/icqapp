@@ -8,6 +8,12 @@ class QuestionsController < ApplicationController
       render 'student_index' and return
     end
   end
+  
+  def show
+    @course = Course.find(params[:course_id])
+    @question = Question.find(params[:id])
+    render 'show_question' and return
+  end
 
   def new
     @course = Course.find(params[:course_id])    
@@ -16,8 +22,10 @@ class QuestionsController < ApplicationController
 
   def create
     @course = Course.find(params[:course_id])    
-    @q = @course.questions.create(create_params)
+    @q = @course.questions.new(create_params)
+    @q.qcontent = params[:options]
     @q.image.attach(create_params[:image])
+    @q.save
     if @q.persisted?
       flash[:notice] = "#{@q.qname} created"
       redirect_to course_questions_path(@course) and return
@@ -38,11 +46,12 @@ class QuestionsController < ApplicationController
 
 private
   def create_params
-    p = params.require(:question).permit(:qname, :type, :qcontent, :content_type, :answer, :image)
+    p = params.require(:question).permit(:qname, :type, :qcontent, :content_type, :answer, :breakout, :image, :options, :correctanswer)
     # reform qcontent into an array
     if p[:qcontent]
       p[:qcontent] = p[:qcontent].split.collect { |s| s.strip }
     end
+    # p[:answer] = p[:correctanswer]
     p
   end
 end

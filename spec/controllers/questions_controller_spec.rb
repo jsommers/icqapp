@@ -31,6 +31,18 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to(courses_path)
     end
   end
+  
+  describe "GET #show" do
+    it "returns http success" do
+      s = FactoryBot.create(:student)
+      sign_in s
+      c = FactoryBot.create(:course)  
+      q = Question.create(:course => c, :qname => "question", :type => "NumericQuestion")
+      get :show, :params => {:course_id => c.id, :id => q.id}
+      expect(response).to have_http_status(:success)
+    end
+    
+  end
 
   describe "GET #new" do
     it "returns http success for an admin" do

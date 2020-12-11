@@ -6,7 +6,7 @@
       .card-img-top= image_tag @question.image.variant(resize: "480x480^"), :class => "imgwide"
     %hr
     .card-text
-      =form_for @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :remote => true do
+      =form_for @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :remote => false do
         .form-group
           =question_input(@question, @current) 
           =submit_tag @question.prompt

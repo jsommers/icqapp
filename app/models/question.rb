@@ -22,7 +22,7 @@ class Question < ApplicationRecord
 protected
   def options_for_multichoice
     if type == "MultiChoiceQuestion" and qcontent.length < 2
-      errors.add(:qcontent, "missing newline-separated options for multichoice question")
+      errors.add(:qcontent, "Invalid. Please add at least two options!")
     end
   end
 

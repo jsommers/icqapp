@@ -1,0 +1,23 @@
+#main
+  %ol.breadcrumb
+    %li.breadcrumb-item= link_to "Questions", course_questions_path(@course)
+    %li.breadcrumb-item.active= @course.name
+
+  .card
+    .card-body
+      %h3.card-title= @question.qname
+      %h4.card-subtitle= @question.qcontent
+
+  %table.table
+    %tr
+      %th Answer
+      %th Your Response(s)
+      %th Image
+      %th Date
+    %tr
+      %td= @question.answer
+      %td= student_responses(@question)
+      %td= show_image @question.image
+      %td= time_tag @question.created_at.localtime, :format => "%Y/%m/%d"
+
+

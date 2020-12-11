@@ -16,4 +16,20 @@ class User < ApplicationRecord
   def student?
     return !self.admin
   end
+  
+  
+  def get_active_class
+    @user_classes = Course.where('id != -1')
+    @user_classes.each do |c|
+      if c.now? && c.students.include?(self)
+        return c
+      end
+    end
+    return nil
+  end
+  
+  def has_active_class?
+    @class = self.get_active_class
+    return @class != nil
+  end
 end

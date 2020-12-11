@@ -17,12 +17,13 @@
       %th Image
       %th Date
     -@questions.each do |q|
-      %tr
-        %td= q.qname
-        %td= q.answer
-        %td= student_responses(q)
-        %td= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type)
-        %td= show_image q.image
-        %td= time_tag q.created_at.localtime, :format => "%Y/%m/%d"
+      -if !q.active_poll
+        %tr
+          %td= link_to "#{q.qname}", course_question_path(@course, q), :method => :get
+          %td= q.answer
+          %td= student_responses(q)
+          %td= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type)
+          %td= show_image q.image
+          %td= time_tag q.created_at.localtime, :format => "%Y/%m/%d"
 
 

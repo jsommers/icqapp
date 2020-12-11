@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2020_01_06_182751) do
     t.text "answer"
     t.string "type"
     t.string "content_type"
+    t.integer "breakout"
     t.integer "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
