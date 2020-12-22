@@ -23,12 +23,12 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to redirect_to(courses_path)
     end
 
-    it "redirects to course index for a student" do
+    it "renders question for a student" do
       s = FactoryBot.create(:student)
       sign_in s
       c = FactoryBot.create(:course)
       get :index, :params => {:course_id => c.id}
-      expect(response).to redirect_to(courses_path)
+      expect(response).to have_http_status(:success)
     end
   end
 

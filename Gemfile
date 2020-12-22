@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3.3'
@@ -49,9 +49,14 @@ group :development, :test do
   gem 'rspec'
   gem 'simplecov'
   gem 'factory_bot'
-  gem 'capybara'
   gem 'rails-controller-testing'
   gem 'database_cleaner-active_record'
+end
+
+group :test do
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 4.0', require: true
 end
 
 group :development do
