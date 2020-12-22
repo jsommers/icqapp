@@ -1,9 +1,10 @@
 require 'rails_helper'
+require 'webdrivers'
 
 RSpec.feature "PollActivates", type: :feature do
   include Devise::Test::IntegrationHelpers
   
-  describe "active poll visibility for student" do
+  describe "active poll visibility for student", js: true do
     it "an active numeric poll should be visible" do
       c = FactoryBot.create(:course)
       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)
@@ -18,7 +19,7 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       fill_in "response", :with => 1.0
-      click_on "Submit answer"
+      click_on "Enter a number"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq(1.0)
     end
@@ -54,7 +55,7 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       fill_in "response", :with => "some text"
-      click_on "Submit answer"
+      click_on "Enter a text response"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("some text")
     end
@@ -73,7 +74,7 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       choose "response_two"
-      click_on "Submit answer"
+      click_on "Select one option"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("two")
     end
@@ -92,12 +93,12 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       choose "response_two"
-      click_on "Submit answer"
+      click_on "Select one option"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("two")
 
       choose "response_four"
-      click_on "Submit answer"
+      click_on "Select one option"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("four")
     end
