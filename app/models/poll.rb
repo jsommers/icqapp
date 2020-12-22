@@ -51,13 +51,3 @@ class NumericPoll < Poll
     h
   end
 end
-
-class AttendancePoll < Poll
-  def new_response(h={})
-    PollResponse.new(:type => "AttendancePollResponse", :poll => self, **h)
-  end
-
-  def responses
-    self.poll_responses.group(:response).count
-  end
-end

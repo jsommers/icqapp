@@ -13,7 +13,7 @@
     <% end %>
     <hr/>
     <div class="card-text">
-      <%= form_for @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :remote => true do %>
+      <%= form_with model: @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :local => true do %>
         <div class="form-group">
           <%= question_input(@question, @current)  %>
           <%= submit_tag @question.prompt %>

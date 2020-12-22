@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "courses#index"
   resources :courses, :only => [:index, :show] do
+    resources :attendance, :only => [:create]
     resources :questions, :only => [:index, :new, :create, :destroy] do
       resources :polls, :only => [:index, :show, :create, :update, :destroy] do
         resources :poll_responses, :only => [:create]
@@ -13,7 +14,9 @@ Rails.application.routes.draw do
   get '/courses/:id/question_report', :to => 'courses#question_report', :as => :question_report, :action => "question_report", :controller => 'courses'
   get '/courses/:id/status', :to => 'courses#status', :as => :course_status, :action => 'status', :controller => 'courses'
   get '/polls/:id/notify', :to => 'polls#notify', :as => :poll_notify, :action => 'notify', :controller => 'polls'
-  post '/courses/:course_id/take_attendance', :to => 'courses#take_attendance', :as => :course_attendance, :action => 'take_attendance', :controller => 'courses'
+
+  post '/courses/:course_id/open_attendance', :to => 'courses#open_attendance', :as => :open_attendance, :action => 'open_attendance', :controller => 'courses'
+  post '/courses/:course_id/close_attendance', :to => 'courses#close_attendance', :as => :close_attendance, :action => 'close_attendance', :controller => 'courses'
 
   get '/x', :to => 'courses#create_and_activate'
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }

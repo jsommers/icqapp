@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   def index
     @course = Course.find(params[:course_id])    
-    @questions = @course.questions.order(:type).where.not(:type => "AttendanceQuestion")
+    @questions = @course.questions.order(:type)
     if !current_user.admin?
       render 'student_index' and return
     end

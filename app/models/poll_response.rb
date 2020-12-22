@@ -15,6 +15,3 @@ class NumericPollResponse < PollResponse
     read_attribute(:response).to_f
   end
 end
-
-class AttendancePollResponse < PollResponse
-end

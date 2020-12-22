@@ -1,6 +1,6 @@
 <div id="main">
   <div id="form">
-    <%= form_for [@course, @q], method: :post do |f| %>
+    <%= form_with model: [@course, @q], method: :post, local: true do |f| %>
       <%= f.label :qname, "Question text:" %>
       <%= f.text_field :qname %>
       <br/>

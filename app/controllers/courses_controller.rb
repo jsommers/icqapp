@@ -36,30 +36,18 @@ class CoursesController < ApplicationController
     end
   end
 
-  def take_attendance
+  def open_attendance
     @course = Course.find(params[:course_id])
-    @question = @course.questions.where(:type => "AttendanceQuestion").first
-    if !@question
-      @question = AttendanceQuestion.new
-      @question.course = @course
-      if !@question.save
-        flash[:alert] = "Failed to save question #{question}"
-        redirect_to course_questions_path(@course) and return
-      end
-    end
+    @course.open_attendance
+    flash[:notice] = "Opened attendance for today"
+    redirect_to course_questions_path(@course) and return
+  end
 
-    Poll.closeall(@course)
-    num = @question.polls.maximum(:round).to_i
-    @poll = @question.new_poll
-    @poll.isopen = true
-    @poll.round = num + 1
-    if !@poll.save
-      flash[:alert] = "Failed to save attendance poll"
-      redirect_to course_question_path(@course, @question) and return
-    end
-
-    flash[:notice] = "Started new attendance poll"
-    redirect_to course_question_poll_path(@course, @question, @poll) and return
+  def close_attendance
+    @course = Course.find(params[:course_id])
+    @course.close_attendance
+    flash[:notice] = "Attendance closed for today"
+    redirect_to course_questions_path(@course) and return
   end
 
   def attendance_report

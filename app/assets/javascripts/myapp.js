@@ -244,20 +244,6 @@ var ICQ = (function() {
             console.log("Modifying location");
             window.location = window.location.href;
         }
-
-        /*
-        if (data.status == 'open') {
-            if (data.path != window.location.pathname) {
-              console.log("Modifying location");
-              // window.location = window.location.origin + data.path;
-            }
-        } else if (data.status == 'closed') { 
-            if (data.path != window.location.pathname) {
-              console.log("Modifying location");
-              window.location = window.location.origin + data.path;
-            }
-        } 
-        */
     };
 
     var monitor_question_status = function(ids) {
@@ -323,4 +309,4 @@ ICQ.questionstatus = undefined;
 
 // window.addEventListener('DOMContentLoaded', ICQ.init);
 
-jQuery(ICQ.init);
+// jQuery(ICQ.init);

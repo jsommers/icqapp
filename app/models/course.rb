@@ -4,9 +4,41 @@ class Course < ApplicationRecord
 
   has_and_belongs_to_many :students, :class_name => "User"
   has_many :questions, :dependent => :destroy
+  has_many :attendance, :dependent => :destroy
 
   def active_question
     questions.joins([:polls]).where("polls.isopen = ?", true).first
+  end
+
+  def attendance_taken?
+    !self.attendance_today.nil?
+  end
+
+  def attendance_active?
+    self.attendance_today && self.attendance_today.active
+  end
+
+  def attendance_today
+    now = Time.now
+    self.attendance.where('created_at BETWEEN ? AND ?', Time.new(now.year, now.month, now.day), Time.new(now.year, now.month, now.day, 23, 59, 59)).first
+  end
+
+  def open_attendance
+    att = self.attendance_today
+    if att.nil? 
+      att = Attendance.new(:active => true)
+      self.attendance << att
+    end
+    att.active = true
+    att.save
+  end
+
+  def close_attendance
+    att = self.attendance_today
+    if att
+      att.active = false
+      att.save
+    end
   end
 
   def active_poll

@@ -1,9 +1,4 @@
 module QuestionsHelper
-  def attendance_taken?(course)
-    attendq = course.questions.where(:type => "AttendanceQuestion").first
-    return attendq.nil? ? false : attendq.attendance_taken?
-  end
-
   def student_responses(q)
     rr = PollResponse.joins(:poll).where("polls.question_id" => q.id).where("poll_responses.user_id" => current_user).select(:response)
     if rr.length == 0
@@ -37,10 +32,6 @@ module QuestionsHelper
         s = ""
         q.qcontent.each do |opt|
           h = {:class => "form-check-input"}
-          # FIXME: doesn't work
-          if opt==curr 
-            h[:checked]='checked'
-          end
           t = radio_button_tag('response', opt, **h)
           t += label_tag(opt)
           s = s + "<div class='form-check'>" + t + "</div>"

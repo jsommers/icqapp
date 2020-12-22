@@ -64,17 +64,3 @@ class NumericQuestion < Question
   end
 end
 
-class AttendanceQuestion < Question
-  def new_poll(h={})
-    Poll.new(:type => "AttendancePoll", :question => self, **h)
-  end
-
-  def prompt
-    "Check in now"
-  end
-
-  def attendance_taken?
-    now = Time.now
-    !self.polls.where('created_at BETWEEN ? AND ?', Time.new(now.year, now.month, now.day), Time.new(now.year, now.month, now.day, 23, 59, 59)).first.nil?
-  end
-end

@@ -23,10 +23,15 @@
         <%= octicon "calendar", :height => 20 %>
       </span>
       <span>
-        <% if !attendance_taken?(@course) %>
-          <%= link_to 'Take attendance', course_attendance_path(@course), :method => :post, :id => 'take_attendance', :class => 'btn btn-sm btn-success' %>
+        <% if !@course.attendance_taken? %>
+          <%= link_to 'Take attendance', open_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
         <% else %>
+          <% if @course.attendance_active? %>
+          <%= link_to 'Close attendance', close_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
+          <% else %>
           Attendance already taken today
+          <%= link_to 'Reopen attendance', open_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
+          <% end %>
         <% end %>
       </span>
     </div>
