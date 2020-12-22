@@ -58,15 +58,13 @@ class CoursesController < ApplicationController
   def attendance_report
     @course = Course.find(params[:id])
     redirect_to course_path(@course) if current_user.student? 
-    @apolls = Question.where(:type => "AttendanceQuestion", :course => @course).first.polls.order(:created_at)
-
-    # Course.find(1).questions.where(:type => "AttendanceQuestion").joins(:polls).select("polls.id")
+    @apolls = @course.attendance.order(:created_at)
 
     @attendance_matrix = []  
-    @apolls.each do |poll|
-      thisrow = [ poll.created_at.strftime("%Y-%m-%d") ]
+    @apolls.each do |att|
+      thisrow = [ att.created_at.strftime("%Y-%m-%d") ]
       @course.students.each do |s|
-        thisrow << poll.poll_responses.where(:user_id => s.id).count
+        thisrow << att.users.where(:id => s.id).count
       end
       sum = thisrow[1..].sum
       thisrow << "#{sum} / #{thisrow.length-1}"

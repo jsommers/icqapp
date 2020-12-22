@@ -32,6 +32,18 @@ RSpec.feature "Attendance", type: :feature do
       expect(page.current_path).to eq(course_questions_path(c))
       expect(c.attendance_active?).to be false
     end
+
+    it "should show an attendance report" do
+      admin = FactoryBot.create(:admin)
+      sign_in admin
+      c = FactoryBot.create(:course)
+      s = FactoryBot.create(:student)
+      c.students << s
+      c.open_attendance
+      c.close_attendance
+      visit attendance_report_path(c)
+      expect(page.text).to match(/0 0 \/ 1/)
+    end
   end
 
   describe "basic attendance workflow - student" do
