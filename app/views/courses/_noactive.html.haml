@@ -1,9 +1,0 @@
-#noqcard.card
-  .card-body
-    %h3.card-title{"data-ids" => "#{@course.id} #{@qid} #{@pid}"}
-    %span= octicon "stopwatch", :height => 32
-    %span Hang on ... 
-    %p.card-text no question is active right now
-#qcard.card.hidden
-  .card-body
-    %h3#squestion.card-title{"data-ids" => "#{@course.id} #{@qid} #{@pid}"}= @qname 

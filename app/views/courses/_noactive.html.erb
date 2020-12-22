@@ -1,0 +1,17 @@
+<div class="card" id="noqcard">
+  <div class="card-body">
+    <h3 class="card-title" data-ids="<%= @course.id %> <%= @qid %> <%= @pid %>"></h3>
+    <span>
+      <%= octicon "stopwatch", :height => 32 %>
+    </span>
+    <span>Hang on ... </span>
+    <p class="card-text">no question is active right now</p>
+  </div>
+</div>
+<div class="card hidden" id="qcard">
+  <div class="card-body">
+    <h3 class="card-title" data-ids="<%= @course.id %> <%= @qid %> <%= @pid %>" id="squestion">
+      <%= @qname  %>
+    </h3>
+  </div>
+</div>

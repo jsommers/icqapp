@@ -1,0 +1,12 @@
+<div id="main">
+  <% if @activepoll %>
+    <%= render :partial => "active" %>
+  <% else %>
+    <%= render :partial => "noactive" %>
+  <% end %>
+  <br/>
+  <p id="refresh">
+    <%= link_to "Refresh", course_path(@course), :class => "btn btn-primary" %>
+  </p>
+  <div id="bottom"></div>
+</div>

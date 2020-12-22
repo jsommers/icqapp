@@ -1,0 +1,28 @@
+<h3>
+  <%= "Attendance report for #{@course.name}" %>
+</h3>
+<table class="table-striped table-bordered">
+  <tr>
+    <td class="small">Date</td>
+    <% @course.students.each do |s| %>
+      <th>
+        <p class="vertical_orientation">
+          <%= s.email %>
+        </p>
+      </th>
+    <% end %>
+    <td class="small">Total</td>
+  </tr>
+  <% @attendance_matrix.each do |row| %>
+    <tr>
+      <td class="small">
+        <%= "#{row[0]}" %>
+      </td>
+      <% row[1..].each do |val| %>
+        <td class="small">
+          <%= "#{val}" %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
