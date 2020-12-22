@@ -18,6 +18,11 @@ class CoursesController < ApplicationController
       end
       @poll = @course.active_poll
       @question = @course.active_question
+      @checked_in = false
+      if @course.attendance_today
+        @checked_in = @course.attendance_today.checked_in? current_user
+      end
+
       if @poll
         @response = @poll.new_response
         @current = PollResponse.where(:poll => @poll, :user => current_user).first
