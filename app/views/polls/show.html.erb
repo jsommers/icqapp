@@ -84,7 +84,7 @@
     <div class="hidden" id="responses">
       <div id="plotspace"></div>
       <br/>
-      <% #%table.table %>
+      <table class="table">
         <% @poll.responses.each_pair do |v,count|  %>
           <tr class="<%= row_class(@question, v) %>">
             <th>
@@ -95,7 +95,7 @@
             </td>
           </tr>
         <% end %>
-      <% end %>
+      </table>
     </div>
   </div>
   <br/>
