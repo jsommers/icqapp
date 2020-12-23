@@ -25,7 +25,10 @@ class CoursesController < ApplicationController
 
       if @poll
         @response = @poll.new_response
-        @current = PollResponse.where(:poll => @poll, :user => current_user).first
+        current = PollResponse.where(:poll => @poll, :user => current_user).first
+        if !current.nil?
+          @response = current
+        end
         @pid = @poll.id
         @qid = @question.id
         @qname = @question.qname

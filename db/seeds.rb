@@ -10,8 +10,8 @@
 Rails.application.eager_load!
 
 User.create!(:email => 'jsommers@colgate.edu', :admin => true)
-c101 = Course.create!(:name => 'COSC101S20', :daytime => 'TR 8:30-9:45')
-c301 = Course.create!(:name => 'COSC301S20', :daytime => 'TR 9:55-11:10')
+c101 = Course.create!(:name => 'COSC101S21', :daytime => 'TR 10:05-11:20')
+c415 = Course.create!(:name => 'COSC415F21', :daytime => 'TR 8:30-9:45')
 
 std101 = %w{
 sommersmeister@gmail.com
@@ -25,13 +25,13 @@ end
 
 exit
 
-puts "#{c301}"
-std301 = %w{
+puts "#{c415}"
+std415 = %w{
 }
 
-std301.each do |email|
+std415.each do |email|
   std = User.create!(:email => email)
-  c301.students << std
+  c415.students << std
 end
 
 

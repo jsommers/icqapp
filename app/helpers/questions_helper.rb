@@ -32,7 +32,7 @@ module QuestionsHelper
         s = ""
         q.qcontent.each do |opt|
           h = {:class => "form-check-input"}
-          t = radio_button_tag('response', opt, **h)
+          t = radio_button_tag('response', opt, opt == curr, **h)
           t += label_tag(opt)
           s = s + "<div class='form-check'>" + t + "</div>"
         end
