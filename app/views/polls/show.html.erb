@@ -70,13 +70,11 @@
       <span>
         <%= octicon "unfold", :height => 32, :id => "responseunfold" %>
       </span>
-      <span>
-        <%= octicon "check", :height => 32, :id => "showanswer" %>
-      </span>
       <span>Responses:</span>
       <span id="responsecount">
         <%= @poll.responses.values.inject(:+) %>
       </span>
+      <span><%= link_to "Cold call", course_question_poll_path(@course, @question, @poll, :coldcall => true), :method => :get, :class => "btn btn-sm btn-secondary" %></span>
     </h5>
     <div class="hidden" id="responses"
            data-qtype="<%= @question.type %>"
