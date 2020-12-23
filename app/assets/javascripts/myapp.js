@@ -67,6 +67,7 @@ var ICQ = (function() {
             data['name'] = 'responses';
             data['type'] = 'box';
         }
+	    console.log("plotting stuff");
         Plotly.newPlot('plotspace', [data], layout, opts);
     };
 

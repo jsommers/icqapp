@@ -11,7 +11,6 @@ Rails.application.eager_load!
 
 User.create!(:email => 'jsommers@colgate.edu', :admin => true)
 c101 = Course.create!(:name => 'COSC101S21', :daytime => 'TR 10:05-11:20')
-c415 = Course.create!(:name => 'COSC415F21', :daytime => 'TR 8:30-9:45')
 
 std101 = %w{
 sommersmeister@gmail.com
@@ -24,7 +23,9 @@ std101.each do |email|
 end
 
 exit
+#######################
 
+c415 = Course.create!(:name => 'COSC415F21', :daytime => 'TR 8:30-9:45')
 puts "#{c415}"
 std415 = %w{
 }
