@@ -7,15 +7,15 @@ RSpec.feature "CourseIndices", type: :feature do
     it "should list courses that exist" do
       s = FactoryBot.create(:student)
       sign_in s
-      c1 = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
-      c2 = Course.create!(:name => "Two", :daytime => "MWF 10:20-11:10")
+      c1 = Course.create!(:name => "One", :daytime => "TR 00:00-00:01")
+      c2 = Course.create!(:name => "Two", :daytime => "MWF 00:00-00:01")
       c1.students << s
       c2.students << s
 
       visit courses_path
       expect(page.text).to match(/student\d+@colgate.edu/)
-      expect(page.text).to match(/One.+TR 8:30-9:55/)
-      expect(page.text).to match(/Two.+MWF 10:20-11:10/)
+      expect(page.text).to match(/One.+TR 00:00-00:01/)
+      expect(page.text).to match(/Two.+MWF 00:00-00:01/)
     end
 
     it "should not allow student to visit course show page for courses not enrolled in" do

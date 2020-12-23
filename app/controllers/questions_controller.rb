@@ -29,11 +29,11 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    c = Course.find(params[:course_id])    
-    q = c.questions.find(params[:id])
+    @course = Course.find(params[:course_id])    
+    q = @course.questions.find(params[:id])
     q.destroy
     flash[:notice] = "#{q.qname} destroyed"
-    redirect_to course_questions_path(c)
+    redirect_to course_questions_path(@course)
   end
 
 private

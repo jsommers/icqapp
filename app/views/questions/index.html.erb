@@ -64,10 +64,10 @@
           <%= time_tag q.created_at.localtime, :format => "%Y/%m/%d" %>
         </td>
         <td>
-          <%= link_to "Delete", course_question_path(@course, q), :method => :delete, :class => "btn btn-danger", :id => "destroy_#{q.qname}" %>
+          <%= link_to "Delete", course_question_path(@course, q), method: :delete, class: "btn btn-danger", id: "destroy_#{q.qname}" %>
         </td>
         <td>
-          <%= link_to "Activate", course_question_polls_path(@course, q), :method => :post, :id => "create_#{q.qname}", :class => "btn btn-success" %>
+          <%= link_to "Activate", course_question_polls_path(@course, q), method: :post, id: "create_#{q.qname}", class: "btn btn-success" %>
         </td>
       </tr>
     <% end %>

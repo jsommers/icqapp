@@ -68,9 +68,6 @@
   <div>
     <h5>
       <span>
-        <%= link_to octicon("sync", :height => 32), course_question_poll_path(@course, @question, @poll), :remote => true, :id => "responsesync" %>
-      </span>
-      <span>
         <%= octicon "unfold", :height => 32, :id => "responseunfold" %>
       </span>
       <span>
@@ -81,7 +78,14 @@
         <%= @poll.responses.values.inject(:+) %>
       </span>
     </h5>
-    <div class="hidden" id="responses">
+    <div class="hidden" id="responses"
+           data-qtype="<%= @question.type %>"
+           data-responsevalues="<% @poll.responses.each_pair do |v,count| %>
+             <%= v %>
+             <% end %>"
+           data-responsecounts="<% @poll.responses.each_pair do |v,count| %>
+             <%= count %>
+             <% end %>">
       <div id="plotspace"></div>
       <br/>
       <table class="table">
