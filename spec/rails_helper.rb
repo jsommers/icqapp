@@ -64,5 +64,5 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 end
 
-Capybara.javascript_driver = :selenium_headless
-# Capybara.javascript_driver = :selenium
+# Capybara.javascript_driver = :selenium_headless
+Capybara.javascript_driver = :selenium

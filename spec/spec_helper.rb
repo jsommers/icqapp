@@ -1,5 +1,6 @@
 require 'database_cleaner'
 require 'simplecov'
+
 SimpleCov.start do 
   add_filter '/spec/'
   add_filter '/app/controllers/users/'

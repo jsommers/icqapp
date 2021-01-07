@@ -12,11 +12,8 @@ class PollsController < ApplicationController
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
     if params[:coldcall] 
-      ids = @poll.poll_responses.pluck('user_id').shuffle
-      if ids.length
-        @lucky = User.find(ids[0])
-        flash[:notice] = "Random student: #{@lucky.email}"
-      end
+      @lucky = ColdCall.random_student(@course)
+      flash[:notice] = "Random student: #{@lucky.email}"
     end
   end
 

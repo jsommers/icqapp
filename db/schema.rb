@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_22_194516) do
+ActiveRecord::Schema.define(version: 2021_01_07_210441) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 2020_12_22_194516) do
     t.integer "attendance_id", null: false
     t.integer "user_id", null: false
     t.index ["user_id", "attendance_id"], name: "index_attendances_users_on_user_id_and_attendance_id", unique: true
+  end
+
+  create_table "cold_calls", force: :cascade do |t|
+    t.integer "count"
+    t.integer "user_id", null: false
+    t.integer "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_cold_calls_on_course_id"
+    t.index ["user_id"], name: "index_cold_calls_on_user_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -106,6 +116,8 @@ ActiveRecord::Schema.define(version: 2020_12_22_194516) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "courses"
+  add_foreign_key "cold_calls", "courses"
+  add_foreign_key "cold_calls", "users"
   add_foreign_key "poll_responses", "polls"
   add_foreign_key "poll_responses", "users"
   add_foreign_key "polls", "questions"
