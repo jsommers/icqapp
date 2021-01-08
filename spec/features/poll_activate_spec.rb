@@ -1,10 +1,9 @@
 require 'rails_helper'
-require 'webdrivers'
 
 RSpec.feature "PollActivates", type: :feature do
   include Devise::Test::IntegrationHelpers
   
-  describe "active poll visibility for student", js: true do
+  describe "active poll visibility for student", js: false do
     it "an active numeric poll should be visible" do
       c = FactoryBot.create(:course)
       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)

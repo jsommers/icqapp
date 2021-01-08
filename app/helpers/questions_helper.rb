@@ -46,7 +46,7 @@ module QuestionsHelper
 
   def show_image(img)
     if img.attached?
-      image_tag(img.variant(resize: "100x100^")).html_safe
+      image_tag(img.variant(resize_to_fit: [100, 100])).html_safe
     end
   end
 end

@@ -1,5 +1,6 @@
 require 'database_cleaner'
 require 'simplecov'
+require 'capybara/rspec'
 
 SimpleCov.start do 
   add_filter '/spec/'

@@ -9,6 +9,7 @@
       <% if !current_user.student? %>
         <th>Attendance report</th>
         <th>Question/poll report</th>
+        <th>Cold call report</th>
         <th># Students</th>
       <% else %>
         <th></th>
@@ -28,6 +29,9 @@
           </td>
           <td>
             <%= link_to "Show report", question_report_path(c), :class => "btn btn-primary btn-sm" %>
+          </td>
+          <td>
+            <%= link_to "Show report", edit_course_coldcall_path(c,0), :class => "btn btn-primary btn-sm" %>
           </td>
           <td>
             <%= c.students.count %>

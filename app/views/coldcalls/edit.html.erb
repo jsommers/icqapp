@@ -1,0 +1,17 @@
+<h2>View/edit cold calls for <%= @course.name %></h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @coldcalls.each do |coldcall| %>
+  <tr>
+    <td><%= coldcall.user.email %></td>
+    <td><%= coldcall.count %></td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
