@@ -3,6 +3,25 @@ require 'rails_helper'
 RSpec.feature "PollActivates", type: :feature do
   include Devise::Test::IntegrationHelpers
   
+  describe "active poll for admin", js: false do 
+    it "should allow for cold calling after poll is closed" do
+      c = FactoryBot.create(:course)
+      q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)
+      c.questions << q
+      q.save
+      p = q.new_poll(:isopen => true, :round => 1)
+      p.save
+      admin = FactoryBot.create(:admin)
+      student = FactoryBot.create(:student)
+      c.students << student
+      sign_in admin
+      visit course_question_poll_path(c, q, p)
+      expect(page.text).to match(/Q1/)
+      click_on "Cold call"
+      expect(page.text).to match(/Random student: student\d+@colgate.edu/)
+    end
+  end
+
   describe "active poll visibility for student", js: false do
     it "an active numeric poll should be visible" do
       c = FactoryBot.create(:course)
