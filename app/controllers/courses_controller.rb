@@ -134,6 +134,7 @@ class CoursesController < ApplicationController
       redirect_to courses_path and return
     end
 
+    @question = Question.new
     qtypes = {:m => MultiChoiceQuestion, :n => NumericQuestion, :f => FreeResponseQuestion }
     qt = qtypes[t]
     if qt.nil?
@@ -151,7 +152,7 @@ class CoursesController < ApplicationController
     @question.qname = question
     if t == :m
       if opts
-        @question.qcontent = opts
+        @question.qcontent = opts.split(/\n/)
       else
         alpha = 'ABCDEFG'
         @question.qcontent = alpha.split(//)[0...numopts]
