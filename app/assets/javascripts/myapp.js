@@ -29,8 +29,8 @@ var ICQ = (function() {
     };
 
     var doPlot = function() {
-        var values = document.getElementById('responses').dataset.responsevalues.trim().split(/\s+/);
-        var counts = document.getElementById('responses').dataset.responsecounts.trim().split(/\s+/);
+        var values = document.getElementById('responses').dataset.responsevalues.trim().split('!!!!!');
+        var counts = document.getElementById('responses').dataset.responsecounts.trim().split('!!!!!');
         var clen = counts.length;
         for (var i = 0; i < clen; i++) {
             counts[i] = parseInt(counts[i]);

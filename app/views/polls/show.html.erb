@@ -78,12 +78,8 @@
     </h5>
     <div class="hidden" id="responses"
            data-qtype="<%= @question.type %>"
-           data-responsevalues="<% @poll.responses.each_pair do |v,count| %>
-             <%= v %>
-             <% end %>"
-           data-responsecounts="<% @poll.responses.each_pair do |v,count| %>
-             <%= count %>
-             <% end %>">
+           data-responsevalues="<%= @qoptionspacked %>"
+           data-responsecounts="<%= @presponsespacked %>">
       <div id="plotspace"></div>
       <br/>
       <table class="table">
