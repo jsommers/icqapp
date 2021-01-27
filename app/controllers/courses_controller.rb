@@ -177,7 +177,6 @@ class CoursesController < ApplicationController
 
     flash[:notice] = "Started new poll"
     redirect_to course_question_poll_path(@course, @question, @poll) and return
-   # http://localhost:3000/x?q=What%20will%20these%20rules%20do?&c=COSC101S19&n=4`
   end
 
 private
