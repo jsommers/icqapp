@@ -83,4 +83,6 @@ Rails.application.configure do
     authentication:       'plain',
     enable_starttls_auto: true
   }
+
+  OmniAuth.config.request_validation_phase = nil
 end

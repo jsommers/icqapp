@@ -36,10 +36,6 @@
           <td>
             <%= c.students.count %>
           </td>
-        <% else %>
-          <td>
-            <%= link_to "Review past questions", course_questions_path(c), :class => "btn btn-primary btn-sm" %>
-          </td>
         <% end %>
       </tr>
     <% end %>

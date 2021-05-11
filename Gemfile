@@ -48,6 +48,7 @@ group :development, :test do
   gem 'simplecov'
   gem 'factory_bot'
   gem 'rails-controller-testing'
+  gem 'database_cleaner'
   gem 'database_cleaner-active_record'
 end
 

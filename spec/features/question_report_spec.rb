@@ -42,7 +42,7 @@ RSpec.feature "Attendance", type: :feature do
       q.save
       p = q.new_poll(:isopen => false, :round => 1)
       p.save
-      visit courses_path
+      visit course_path(c)
       click_on "Review past questions"
       expect(page.current_path).to eq(course_questions_path(c))
       expect(page.text).to match(/Your Response\(s\)/)
