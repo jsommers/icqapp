@@ -2,7 +2,7 @@
 
 ## In-class question (icq) app for peer instruction 
 
-Uses Rails 6.0 with Devise/Google oauth2.  
+Uses Rails 6.1 with Devise/Google oauth2.  
 
 ## Set up
 
@@ -15,7 +15,7 @@ See `NOTES.md` for some implementation notes.
 
 ## License
 
-Copyright 2019-2020 Joel Sommers. All rights reserved.
+Copyright 2019-2021 Joel Sommers. All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
