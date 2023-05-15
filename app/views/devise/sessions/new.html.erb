@@ -1,0 +1,38 @@
+<br/>
+<div class="row">
+  <div class="col-med">
+    <h2>
+      <span>
+        <%= octicon "unverified", :height => 32 %>
+      </span>
+      In-class questions
+    </h2>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-med">
+    <h3>
+      <%= link_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, :class => "btn btn-primary btn-lg", :method => :post %>
+    </h3>
+  </div>
+</div>
+<br/>
+<hr/>
+<div class="row">
+  <div class="col-med">
+    <p>
+      Code for this application is available on Github and is licensed under terms
+      of the GPL v3.  Post bug reports on
+      <a href="https://github.com/jsommers/icqapp/issues">the issue tracker</a>.
+    </p>
+    <p>
+      Copyright 2019-2021 Joel Sommers.  All rights reserved.
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-med">
+    <%= link_to "Sommers lab: network measurement research", "https://www.cs.colgate.edu/~jsommers/research.html", :class => "btn btn-success" %>
+  </div>
+</div>
