@@ -39,6 +39,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_16_000010) do
     t.index ["user_id", "course_id"], name: "index_courses_users_on_user_id_and_course_id"
   end
 
+  create_table "poll_responses", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "poll_id"
+    t.text "response"
+    t.string "type"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["poll_id"], name: "index_poll_responses_on_poll_id"
+    t.index ["user_id"], name: "index_poll_responses_on_user_id"
+  end
+
+  create_table "polls", force: :cascade do |t|
+    t.boolean "isopen"
+    t.integer "round"
+    t.string "type"
+    t.integer "question_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["question_id"], name: "index_polls_on_question_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.text "qname"
     t.text "qcontent"
@@ -62,5 +83,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_16_000010) do
   end
 
   add_foreign_key "attendances", "courses"
+  add_foreign_key "poll_responses", "polls"
+  add_foreign_key "poll_responses", "users"
+  add_foreign_key "polls", "questions"
   add_foreign_key "questions", "courses"
 end
