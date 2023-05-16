@@ -52,7 +52,7 @@
               </span>
             </div>
             <div class="col-3">
-              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-light" %>
+              <%= button_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-light", :data => { turbo: false } %>
             </div>
           </div>
         </div>
