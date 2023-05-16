@@ -1,0 +1,14 @@
+<div id="main">
+  <%= link_to "Review past questions", course_questions_path(@course), :class => "btn btn-outline-primary" %>
+  <%= render :partial => 'attendance' %>
+  <% if @activepoll %>
+    <%= render :partial => "active" %>
+  <% else %>
+    <%= render :partial => "noactive" %>
+  <% end %>
+  <br/>
+  <p id="refresh">
+    <%= link_to "Refresh", course_path(@course), :class => "btn btn-primary" %>
+  </p>
+  <div id="bottom"></div>
+</div>

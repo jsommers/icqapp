@@ -1,0 +1,52 @@
+<div id="main">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item active">
+      <%= @course.name %>
+    </li>
+  </ol>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">
+        <%= @course.name %>
+      </h5>
+      <h6 class="card-subtitle">
+        <%= @course.daytime %>
+      </h6>
+    </div>
+  </div>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Answer</th>
+      <th>Your Response(s)</th>
+      <th>Type</th>
+      <th>Image</th>
+      <th>Date</th>
+    </tr>
+    <% @questions.each do |q| %>
+      <tr>
+        <td>
+          <%= q.qname %>
+        </td>
+        <td>
+          <%= q.answer %>
+        </td>
+        <td>
+          <%= student_responses(q) %>
+        </td>
+        <td>
+          <%= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type) %>
+        </td>
+        <td>
+          <%= show_image q.image %>
+        </td>
+        <td>
+          <%= time_tag q.created_at.localtime, :format => "%Y/%m/%d" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>

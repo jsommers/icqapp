@@ -1,0 +1,25 @@
+<div id="main">
+  <div id="form">
+    <%= form_with model: [@course, @q], method: :post, local: true do |f| %>
+      <%= f.label :qname, "Question text:" %>
+      <%= f.text_field :qname %>
+      <br/>
+      <%= f.label :type, "Question type:" %>
+      <%= f.select :type, question_types %>
+      <br/>
+      <%= f.label :qcontent, "Options:" %>
+      <%= f.text_area :qcontent %>
+      <br/>
+      <%= f.label :answer, 'Answer:' %>
+      <%= f.text_field :answer %>
+      <br/>
+      <%= f.label :image, "Image" %>
+      <%= f.file_field :image, :accept => 'image/png,image/gif,image/jpeg,image/pdf' %>
+      <br/>
+      <%= f.submit "Create question" %>
+    <% end %>
+  </div>
+  <div id="bottom">
+    <%= link_to "Back to question index", course_questions_path(@course) %>
+  </div>
+</div>

@@ -11,6 +11,20 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_05_16_000010) do
+  create_table "attendances", force: :cascade do |t|
+    t.boolean "active"
+    t.integer "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_attendances_on_course_id"
+  end
+
+  create_table "attendances_users", id: false, force: :cascade do |t|
+    t.integer "attendance_id", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "attendance_id"], name: "index_attendances_users_on_user_id_and_attendance_id", unique: true
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "daytime"
@@ -25,6 +39,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_16_000010) do
     t.index ["user_id", "course_id"], name: "index_courses_users_on_user_id_and_course_id"
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.text "qname"
+    t.text "qcontent"
+    t.text "answer"
+    t.string "type"
+    t.string "content_type"
+    t.integer "course_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["course_id"], name: "index_questions_on_course_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -35,4 +61,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_16_000010) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "attendances", "courses"
+  add_foreign_key "questions", "courses"
 end
