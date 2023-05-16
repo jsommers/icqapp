@@ -1,16 +1,63 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en">
   <head>
-    <title>Icqapp2</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width, minimum-scale=1.0 maximum-scale=1.0" name="viewport"/>
+    <title>Icqapp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <% if user_signed_in? && !current_user.student? %>
+      <script src="https://cdn.plot.ly/plotly-latest.min.js" charset="utf-8"></script>
+    <% end %>
   </head>
-
   <body>
-    <%= yield %>
+    <div class="container-fluid px-md-5">
+      <div class="row" id="jsflash"></div>
+      <% if flash.keys.length %>
+        <% if flash[:notice] %>
+          <div class="row alert alert-info" id="railsflash">
+            <div class="col-med">
+              <%= flash[:notice]  %>
+            </div>
+          </div>
+        <% end %>
+        <% if flash[:alert] %>
+          <div class="row alert alert-danger" id="railsflash">
+            <div class="col-med">
+              <%= flash[:alert]  %>
+            </div>
+          </div>
+        <% end %>
+        <% if flash[:warning] %>
+          <div class="row alert alert-warning" id="railsflash">
+            <div class="col-med">
+              <%= flash[:warning]  %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <% if user_signed_in? %>
+        <div id="auth">
+          <div class="row p-3 bg-primary text-white">
+            <div class="col-1">
+              <%= link_to octicon("unverified", :height => 28), courses_path, :class => "icon" %>
+            </div>
+            <div class="col-8">
+              <% # %span.smile= octicon "smiley", :height => 28 %>
+              <span class="smile font-weight-bolder">Hello,</span>
+              <span class="smile">
+                <%= "#{current_user.email}." %>
+              </span>
+            </div>
+            <div class="col-3">
+              <%= link_to "Sign out", destroy_user_session_path, :method => :delete, :class => "btn btn-light" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
   </body>
 </html>

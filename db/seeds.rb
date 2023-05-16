@@ -8,6 +8,11 @@
 
 Rails.application.eager_load!
 User.destroy_all
-User.create!(:email => 'jsommers@colgate.edu', :admin => true)
-User.create!(:email => 'sommersmeister@gmail.com', :admin => false)
+Course.destroy_all
 
+i = User.create!(:email => 'jsommers@colgate.edu', :admin => true)
+s = User.create!(:email => 'sommersmeister@gmail.com', :admin => false)
+
+c415 = Course.create!(:name => 'COSC415F23', :daytime => 'MWF 10:20-11:10')
+c415.students << s
+c415.instructors << i

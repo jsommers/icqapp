@@ -5,9 +5,9 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   has_and_belongs_to_many :courses
-  has_and_belongs_to_many :attendances
-  has_many :poll_responses, :dependent => :destroy
-  has_many :polls, :through => :poll_responses
+  #has_and_belongs_to_many :attendances
+  #has_many :poll_responses, :dependent => :destroy
+  #has_many :polls, :through => :poll_responses
 
   def self.from_omniauth(access_token)
     data = access_token.info
@@ -15,6 +15,10 @@ class User < ApplicationRecord
   end
 
   def student?
-    return !self.admin
+    !self.admin
+  end
+
+  def instructor?
+    self.admin
   end
 end
