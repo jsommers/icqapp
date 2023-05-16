@@ -25,14 +25,14 @@
         </td>
         <% if !current_user.student? %>
           <td>
-            <%= link_to "Show report", attendance_report_path(c), :class => "btn btn-primary btn-sm" %>
+            <%# <%= link_to "Show report", attendance_report_path(c), :class => "btn btn-primary btn-sm" %>
           </td>
           <td>
-            <%= link_to "Show report", question_report_path(c), :class => "btn btn-primary btn-sm" %>
+            <%# <%= link_to "Show report", question_report_path(c), :class => "btn btn-primary btn-sm" %> 
           </td>
           <td>
-            <%= link_to "Show report", edit_course_coldcall_path(c,0), :class => "btn btn-primary btn-sm" %>
-          </td>
+            <%# <%= link_to "Show report", edit_course_coldcall_path(c,0), :class => "btn btn-primary btn-sm" %>
+          </td> 
           <td>
             <%= c.students.count %>
           </td>

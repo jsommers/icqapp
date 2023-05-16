@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-med">
     <h3>
-      <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, :class => "btn btn-primary btn-lg", :method => :post %>
+      <%= button_to "Sign in with Google", user_google_oauth2_omniauth_authorize_path, :class => "btn btn-primary btn-lg", :data => { turbo: false} %>
     </h3>
   </div>
 </div>

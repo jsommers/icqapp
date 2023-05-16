@@ -63,7 +63,7 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'rspec'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'factory_bot'
   gem 'rails-controller-testing'
   gem 'database_cleaner'

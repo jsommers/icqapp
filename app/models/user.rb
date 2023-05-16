@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   has_and_belongs_to_many :courses
+
   #has_and_belongs_to_many :attendances
   #has_many :poll_responses, :dependent => :destroy
   #has_many :polls, :through => :poll_responses
@@ -17,10 +18,10 @@ class User < ApplicationRecord
   end
 
   def student?
-    !self.admin
+    !admin
   end
 
   def instructor?
-    self.admin
+    admin
   end
 end
