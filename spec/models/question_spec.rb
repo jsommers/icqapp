@@ -1,13 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
-  it "should default content type to plain" do
-    q = Question.new
-    expect(q.content_type).to eq("plain")
-    q.save
-    expect(q.content_type).to eq("plain")
-  end
-
   describe "provide an appropriate prompt" do
     it "should prompt appropriately for numeric questions" do
       c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")

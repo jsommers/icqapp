@@ -1,21 +1,18 @@
 class CoursesController < ApplicationController
   before_action :go_to_current_course, :only => [:index]
+  before_action :verify_enrollment, :only => [:show]
+  before_action :instructor_index, :only => [:show]
 
   def index
-    if current_user.admin?
-      @courses = Course.all
-    else
-      @courses = current_user.courses
-    end
+    @courses = current_user.courses
   end
 
   def show
     @course = Course.find(params[:id])
-#    if current_user.student? 
-#      if !current_user.courses.include? @course
-#        flash[:notice] = "You're not enrolled in #{@course.name}"
-#        redirect_to courses_path and return
-#      end
+    # check enrollment and redirect if necessary
+
+
+
 #      @poll = @course.active_poll
 #      @question = @course.active_question
 #      @checked_in = false
@@ -182,6 +179,7 @@ class CoursesController < ApplicationController
 #  end
 
 private
+
   def go_to_current_course
     cassoc = current_user.admin ? Course.all : current_user.courses
     cassoc.each do |c|
@@ -191,6 +189,26 @@ private
       end
     end
     # fall-through on index if there's no specific course to redirect to
+  end
+
+  def verify_enrollment
+    @course = Course.find(params[:id])
+    if !current_user.courses.include? @course
+      errortype = if current_user.student? 
+        'enrolled in' 
+      else 
+        'an instructor of' 
+      end
+      flash[:notice] = "You're not #{errortype} #{@course.name}"
+      redirect_to courses_path and return
+    end
+  end
+
+  def instructor_index
+    if current_user.admin? 
+
+      redirect_to course_questions_path(params[:id]) and return
+    end
   end
 
 end

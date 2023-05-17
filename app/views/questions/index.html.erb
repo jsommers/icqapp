@@ -61,7 +61,7 @@
           <%= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type) %>
         </td>
         <td>
-          <%= show_image q.image %>
+          <%= q.content %>
         </td>
         <td>
           <%= time_tag q.created_at.localtime, :format => "%Y/%m/%d" %>

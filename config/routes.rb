@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   resources :courses, :only => [:index, :show] do
 #    resources :coldcalls, :only => [:edit, :update]
     resources :questions, :only => [:index, :new, :create, :destroy] do
-#      resources :polls, :only => [:index, :show, :create, :update, :destroy] do
-#        resources :poll_responses, :only => [:create]
-#      end
+      resources :polls, :only => [:index, :show, :create, :update, :destroy] do
+        resources :poll_responses, :only => [:create]
+      end
     end
   end
 

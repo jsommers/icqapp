@@ -11,9 +11,11 @@ RSpec.describe CoursesController, type: :controller do
     end
     
     it "doesn't redirect for signed in users" do
-      sign_in FactoryBot.create(:admin)
-      get :index
+      admin = FactoryBot.create(:admin)
+      sign_in admin 
       c = FactoryBot.create(:course)
+      c.instructors << admin
+      get :index
       expect(response).to have_http_status(:success)
       expect(assigns(:courses)).to eq([c])
     end

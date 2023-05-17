@@ -19,13 +19,29 @@ RSpec.feature "CourseIndices", type: :feature do
     end
 
     it "should not allow student to visit course show page for courses not enrolled in" do
-      sign_in FactoryBot.create(:student)
+      s = FactoryBot.create(:student)
+      sign_in s
       c1 = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
       c2 = Course.create!(:name => "Two", :daytime => "MWF 10:20-11:10")
+      c2.students << s
 
       visit course_path(c1)
       expect(page.current_path).to eq(courses_path)
       expect(page.text).to match(/not enrolled/)
+    end
+
+    it "should not allow instructor to visit course show page for courses they don't instruct" do
+      inst = FactoryBot.create(:admin)
+      inst.save!
+      u = FactoryBot.create(:student)
+      c1 = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
+      c2 = Course.create!(:name => "Two", :daytime => "MWF 10:20-11:10")
+
+      sign_in inst
+
+      visit course_path(c1)
+      expect(page.current_path).to eq(courses_path)
+      expect(page.text).to match(/not an instructor/)
     end
 
     it "should allow a student enrolled in a course to visit the show page" do
@@ -57,6 +73,7 @@ RSpec.feature "CourseIndices", type: :feature do
       admin = FactoryBot.create(:admin)
       sign_in admin
       c = FactoryBot.create(:course)
+      c.instructors << admin
       q = FactoryBot.build(:numeric_question)
       c.questions << q
       q.save

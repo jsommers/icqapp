@@ -1,22 +1,20 @@
 class Question < ApplicationRecord
+  has_rich_text :content
+
   belongs_to :course
   has_many :polls, :dependent => :destroy
   validates :qname, presence: true
   validates_associated :course
-  validate :options_for_multichoice
-  enum content_type: %i(html markdown plain)
-  has_one_attached :image
+  #validate :options_for_multichoice
+  #enum content_type: %i(html markdown plain)
+  #has_one_attached :image
 
   def active_poll
     polls.where(:isopen => true).first
   end
 
-  def content_type
-    read_attribute(:content_type) || write_attribute(:content_type, "plain")
-  end
-
-  def poll_responses_for(user) 
-    user.poll_responses 
+  def poll_responses_for(user)
+    user.poll_responses
   end
 
 protected
@@ -30,11 +28,6 @@ protected
 end
 
 class MultiChoiceQuestion < Question
-  serialize :qcontent, Array  
-  def qcontent
-    read_attribute(:qcontent) || write_attribute(:qcontent, [])
-  end
-
   def new_poll(h={})
     Poll.new(:type => "MultiChoicePoll", :question => self, **h)
   end
@@ -63,4 +56,3 @@ class NumericQuestion < Question
     "Enter a number"
   end
 end
-
