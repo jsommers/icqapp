@@ -1,8 +1,14 @@
-<div id="main">
+<div class="row">
+  <div class="col"><%= @coldcall.user.email %></div>
+  <div class="col"><%= @coldcall.count %></div>
+  <div class="col">
+    <%= turbo_frame_tag dom_id(@coldcall) do %>
       <%= form_with url: course_coldcall_path(@course, @coldcall), method: :patch, local: true do |form| %>
         <%= form.hidden_field :user, value: @coldcall.user.id %>
         <%= form.hidden_field :email, value: @coldcall.user.email %>
         <%= form.number_field :count, value: @coldcall.count %>
         <%= form.submit %>
       <% end %>
+    <% end %>
+  </div>
 </div>
