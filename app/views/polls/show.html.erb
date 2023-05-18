@@ -39,9 +39,9 @@
       </div>
       <hr/>
       <div class="card-body">
-        <h3>
+        <h4>
           <%= @question.prompt %>
-        </h3>
+        </h4>
         <div>
           <%= @question.content %>
         </div>
@@ -51,7 +51,7 @@
   <br/>
   <div class="row">
     <div class="col-2">
-      <%= link_to "Notify", poll_notify_path(@poll), method: :get, :class => "btn btn-primary", :id => "notify" %>
+      <%= button_to "Notify", poll_notify_path(@poll), :class => "btn btn-primary", :id => "notify" %>
     </div>
     <% if @poll.isopen %>
       <div class="col-2">
@@ -60,6 +60,7 @@
     <% end %>
   </div>
   <br/>
+
   <div>
     <h5>
       <span>
@@ -71,6 +72,8 @@
       </span>
       <span><%= link_to "Cold call", course_question_poll_path(@course, @question, @poll, :coldcall => true), :method => :get, :class => "btn btn-sm btn-secondary" %></span>
     </h5>
+
+    <!--
     <div class="hidden" id="responses"
            data-qtype="<%= @question.type %>"
            data-responsevalues="<%= @qoptionspacked %>"
@@ -91,6 +94,7 @@
       </table>
     </div>
   </div>
+    -->
   <br/>
   <br/>
 </div>

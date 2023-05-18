@@ -16,13 +16,20 @@ class MultiChoicePoll < Poll
   end
 
   def options
-    self.question.content.to_plain_text.split('\n')
+    opts = []
+    self.question.content.to_plain_text.each_line do |line|
+      opts << line
+    end
+    opts
   end
 
   def responses
     outhash = {}
     h = self.poll_responses.group(:response).count
-    opts = self.question.content.to_plain_text.split('\n')
+    opts = []
+    self.question.content.to_plain_text.each_line do |line|
+      opts << line
+    end
     0.upto(opts.length-1) do |i|
       outhash[opts[i]] = h[opts[i]].to_i
     end

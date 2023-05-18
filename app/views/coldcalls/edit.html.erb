@@ -1,0 +1,39 @@
+<div id="main">
+<h2>View/edit cold calls for <%= @course.name %></h2>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to "#{@course.name}", course_path(@course) %>
+    </li>
+    <li class="breadcrumb-item active">
+      Cold call report
+    </li>
+</ol>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Count</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @coldcalls.each do |coldcall| %>
+  <tr>
+    <td><%= coldcall.user.email %></td>
+    <td><%= coldcall.count %></td>
+    <td>
+      <%= form_with url: course_coldcall_path(@course, coldcall), method: :patch, local: true do |form| %>
+        <%= form.hidden_field :user, value: coldcall.user.id %>
+        <%= form.hidden_field :email, value: coldcall.user.email %>
+        <%= form.number_field :count, value: coldcall.count %>
+        <%= form.submit %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+</div>

@@ -2,7 +2,7 @@
   <% if @checked_in %>
     <div class="btn btn-outline-success disabled">You're checked in for today</div>
   <% else %>
-    <%= link_to "Attendance check-in", attendance_check_in_path(@course), :method => :post, :class => "btn btn-success" %>
+    <%= button_to "Attendance check-in", attendance_check_in_path(@course), :class => "btn btn-success" %>
   <% end %>
 <% else %>
     <div class="btn btn-outline-success disabled">Attendance check-in is not open</div>

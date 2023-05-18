@@ -24,13 +24,13 @@
       </span>
       <span>
         <% if !@course.attendance_taken? %>
-          <%= link_to 'Take attendance', open_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
+          <%= button_to 'Take attendance', open_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
         <% else %>
           <% if @course.attendance_active? %>
-          <%= link_to 'Close attendance', close_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
+          <%= button_to 'Close attendance', close_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
           <% else %>
           Attendance already taken today
-          <%= link_to 'Reopen attendance', open_attendance_path(@course), :method => :post, :class => 'btn btn-sm btn-success' %>
+          <%= button_to 'Reopen attendance', open_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
           <% end %>
         <% end %>
       </span>

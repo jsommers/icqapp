@@ -34,7 +34,6 @@ RSpec.feature "PollActivates", type: :feature do
 
       student = FactoryBot.create(:student)
       c.students << student
-      c.instructors << admin
       sign_in student
       visit course_path(c)
       expect(page.text).to match(/Q1/)

@@ -9,36 +9,28 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
-    # check enrollment and redirect if necessary
+    @poll = @course.active_poll
+    @question = @course.active_question
+    @checked_in = false
+    if @course.attendance_today
+      @checked_in = @course.attendance_today.checked_in? current_user
+    end
 
-
-
-#      @poll = @course.active_poll
-#      @question = @course.active_question
-#      @checked_in = false
-#      if @course.attendance_today
-#        @checked_in = @course.attendance_today.checked_in? current_user
-#      end
-#
-#      if @poll
-#        @response = @poll.new_response
-#        current = PollResponse.where(:poll => @poll, :user => current_user).first
-#        if !current.nil?
-#          @response = current
-#        end
-#        @pid = @poll.id
-#        @qid = @question.id
-#        @qname = @question.qname
-#      else
-#        @pid = 0
-#        @qid = 0
-#        @qname = ""
-#      end
-#      @activepoll = !!@poll
-#      render 'show_student'
-#    else
-#      redirect_to course_questions_path(@course) and return
-#    end
+    if @poll
+      @response = @poll.new_response
+      current = PollResponse.where(:poll => @poll, :user => current_user).first
+      if !current.nil?
+        @response = current
+      end
+      @pid = @poll.id
+      @qid = @question.id
+      @qname = @question.qname
+    else
+      @pid = 0
+      @qid = 0
+      @qname = ""
+    end
+    @activepoll = !!@poll
   end
 
   def open_attendance

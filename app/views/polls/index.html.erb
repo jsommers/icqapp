@@ -59,7 +59,7 @@
           <%= p.poll_responses.count %>
         </td>
         <td>
-          <%= link_to "Notify", poll_notify_path(p), method: :get, :class => "btn btn-primary", :id => "notify" %>
+          <%= button_to "Notify", poll_notify_path(p), :class => "btn btn-primary", :id => "notify" %>
         </td>
         <td>
           <%= link_to "Delete", course_question_poll_path(@course, @question, p), method: :delete, data: { turbo_method: "delete" }, :class => "btn btn-danger" %>

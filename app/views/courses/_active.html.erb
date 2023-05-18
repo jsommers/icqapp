@@ -6,11 +6,6 @@
     <h4 class="card-subtitle">
       <%= @qprompt %>
     </h4>
-    <% if @question.image.attached? %>
-      <div class="card-img-top">
-        <%= image_tag @question.image.variant(resize: "480x480^"), :class => "imgwide" %>
-      </div>
-    <% end %>
     <hr/>
     <div class="card-text">
       <%= form_with model: @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :local => true do %>
@@ -20,15 +15,5 @@
         </div>
       <% end %>
     </div>
-  </div>
-</div>
-<div class="card hidden" id="noqcard">
-  <div class="card-body">
-    <h3 class="card-title" data-ids="<%= @course.id %> <%= @qid %> <%= @pid %>"></h3>
-    <span>
-      <%= octicon "stopwatch", :height => 32 %>
-    </span>
-    <span>Hang on ... </span>
-    <p class="card-text">no question is active right now</p>
   </div>
 </div>
