@@ -54,8 +54,10 @@
   </table>
 
   <div id="bottom">
-    <div id="form">
-      <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
-    <div>
+    <%= turbo_frame_tag 'create_form' do %>
+      <div id="form">
+        <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
+      <div>
+    <% end %>
   </div>
 </div>

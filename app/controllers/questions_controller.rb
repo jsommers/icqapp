@@ -23,11 +23,13 @@ class QuestionsController < ApplicationController
           flash[:notice] = "#{@question.qname} created"
           redirect_to course_questions_path(@course) and return
         end
+        format.turbo_stream 
       end
     else
       msg = @question.errors.full_messages.join('; ')
+      @question = Question.new
       flash[:warning] = "No question created: #{msg}"
-      redirect_to new_course_question_path(@course) and return
+      redirect_to new_course_question_path(@course, @question) and return
     end
   end
 

@@ -1,7 +1,9 @@
 <div id="main">
-  <div id="form">
-    <%= render partial: 'qform' %>
-  <div>
+  <%= turbo_frame_tag 'create_form' do %>
+    <div id="form">
+      <%= render partial: 'qform' %>
+    <div>
+  <% end %>
 
   <br>
   <div id="bottom">

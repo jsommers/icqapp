@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature "NewQuestions", type: :feature do
   include Devise::Test::IntegrationHelpers
 
-  describe "create a new question", js: true do
+  describe "create a new question (no js)", js: false do
     before (:each) do
       admin = FactoryBot.create(:admin)
       @c = FactoryBot.create(:course)
@@ -27,6 +27,15 @@ RSpec.feature "NewQuestions", type: :feature do
       click_on "Create Question"
       expect(page.current_path).to eq(new_course_question_path(@c))
       expect(page.text).to match(/missing sufficient length/i)
+    end
+  end
+
+  describe "create a new question (with js)", js: true do
+    before (:each) do
+      admin = FactoryBot.create(:admin)
+      @c = FactoryBot.create(:course)
+      @c.instructors << admin
+      sign_in admin
     end
 
     it "should succeed if qname is included for numeric response" do
