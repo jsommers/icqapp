@@ -6,7 +6,7 @@ RSpec.feature "Coldcalls", type: :feature do
   context "cold call view/editing" do
     before :each do 
       @c = FactoryBot.create(:course)
-      q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => @c)
+      q = FactoryBot.build(:numeric_question, :qname => "Q1", :content => "question content", :course => @c)
       @c.questions << q
       q.save
       p = q.new_poll(:isopen => true, :round => 1)
@@ -22,8 +22,9 @@ RSpec.feature "Coldcalls", type: :feature do
     end
 
     it "should allow editing of existing cold calls" do
-      visit edit_course_coldcall_path(@c,0)
+      visit course_coldcalls_path(@c)
       expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
+      click_on "Edit"
       fill_in :count, :with => "13"
       click_on "Save"
       expect(page.text).to match(/student\d+@colgate.edu\s+13\s*/)
