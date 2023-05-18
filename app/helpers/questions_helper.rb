@@ -30,7 +30,7 @@ module QuestionsHelper
     case q.type
       when "MultiChoiceQuestion"
         s = ""
-        q.qcontent.each do |opt|
+        q.content.to_plain_text.each_line do |opt|
           h = {:class => "form-check-input"}
           t = radio_button_tag('response', opt, opt == curr, **h)
           t += label_tag(opt, opt)
@@ -41,12 +41,6 @@ module QuestionsHelper
         number_field_tag :response, curr, :step => 0.01, :class => "form-control"
       when "FreeResponseQuestion"
         text_field_tag :response, curr, :class => "form-control"
-    end
-  end
-
-  def show_image(img)
-    if img.attached?
-      image_tag(img.variant(resize_to_fit: [100, 100])).html_safe
     end
   end
 end

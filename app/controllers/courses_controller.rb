@@ -41,36 +41,36 @@ class CoursesController < ApplicationController
 #    end
   end
 
-#  def open_attendance
-#    @course = Course.find(params[:course_id])
-#    @course.open_attendance
-#    flash[:notice] = "Opened attendance for today"
-#    redirect_to course_questions_path(@course) and return
-#  end
-#
-#  def close_attendance
-#    @course = Course.find(params[:course_id])
-#    @course.close_attendance
-#    flash[:notice] = "Attendance closed for today"
-#    redirect_to course_questions_path(@course) and return
-#  end
+  def open_attendance
+    @course = Course.find(params[:course_id])
+    @course.open_attendance
+    flash[:notice] = "Opened attendance for today"
+    redirect_to course_questions_path(@course) and return
+  end
 
-#  def attendance_report
-#    @course = Course.find(params[:id])
-#    redirect_to course_path(@course) if current_user.student? 
-#    @apolls = @course.attendance.order(:created_at)
-#
-#    @attendance_matrix = []  
-#    @apolls.each do |att|
-#      thisrow = [ att.created_at.strftime("%Y-%m-%d") ]
-#      @course.students.each do |s|
-#        thisrow << att.users.where(:id => s.id).count
-#      end
-#      sum = thisrow[1..].sum
-#      thisrow << "#{sum} / #{thisrow.length-1}"
-#      @attendance_matrix << thisrow
-#    end
-#  end
+  def close_attendance
+    @course = Course.find(params[:course_id])
+    @course.close_attendance
+    flash[:notice] = "Attendance closed for today"
+    redirect_to course_questions_path(@course) and return
+  end
+
+  def attendance_report
+    @course = Course.find(params[:id])
+    redirect_to course_path(@course) if current_user.student? 
+    @apolls = @course.attendance.order(:created_at)
+
+    @attendance_matrix = []  
+    @apolls.each do |att|
+      thisrow = [ att.created_at.strftime("%Y-%m-%d") ]
+      @course.students.each do |s|
+        thisrow << att.users.where(:id => s.id).count
+      end
+      sum = thisrow[1..].sum
+      thisrow << "#{sum} / #{thisrow.length-1}"
+      @attendance_matrix << thisrow
+    end
+  end
 
 #  def question_report
 #    @course = Course.find(params[:id])

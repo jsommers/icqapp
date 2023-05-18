@@ -19,17 +19,20 @@
   </div>
   <table class="table">
     <tr>
-      <th>Name</th>
+      <th>QName</th>
+      <th>Question</th>
       <th>Answer</th>
       <th>Your Response(s)</th>
       <th>Type</th>
-      <th>Image</th>
       <th>Date</th>
     </tr>
     <% @questions.each do |q| %>
       <tr>
         <td>
           <%= q.qname %>
+        </td>
+        <td>
+          <%= q.content %>
         </td>
         <td>
           <%= q.answer %>
@@ -39,9 +42,6 @@
         </td>
         <td>
           <%= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type) %>
-        </td>
-        <td>
-          <%= show_image q.image %>
         </td>
         <td>
           <%= time_tag q.created_at.localtime, :format => "%Y/%m/%d" %>
