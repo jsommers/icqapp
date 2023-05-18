@@ -5,9 +5,7 @@ class Question < ApplicationRecord
   has_many :polls, :dependent => :destroy
   validates :qname, presence: true
   validates_associated :course
-  #validate :options_for_multichoice
-  #enum content_type: %i(html markdown plain)
-  #has_one_attached :image
+  validate :content_length
 
   def active_poll
     polls.where(:isopen => true).first
@@ -18,9 +16,9 @@ class Question < ApplicationRecord
   end
 
 protected
-  def options_for_multichoice
-    if type == "MultiChoiceQuestion" and qcontent.length < 2
-      errors.add(:qcontent, "missing newline-separated options for multichoice question")
+  def content_length
+    if content.to_plain_text.length < 5
+      errors.add(:content, "missing sufficient length")
     end
   end
 

@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :redirect_if_student, :only => ['new', 'create', 'destroy']
+  before_action :redirect_if_student, :only => [:new, :create, :destroy]
 
   def index
     @course = Course.find(params[:course_id])    
@@ -11,22 +11,7 @@ class QuestionsController < ApplicationController
 
   def new
     @course = Course.find(params[:course_id])    
-    @q = Question.new
-  end
-
-  def edit
-    @course = Course.find(params[:course_id])    
-    @q = Question.new
-  end
-
-  def update
-    @course = Course.find(params[:course_id])    
-    @question = Question.find(params[:id])
-    unless @question.update(create_update_params)
-      msg = @question.errors.full_messages.join('; ')
-      flash[:warning] = "Question not updated: #{msg}"
-    end
-    redirect_to course_questions_path(@course) 
+    @question = Question.new
   end
 
   def create

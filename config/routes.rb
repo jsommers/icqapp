@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root to: "courses#index"
   resources :courses, :only => [:index, :show] do
 #    resources :coldcalls, :only => [:edit, :update]
-    resources :questions do
+    resources :questions, :only => [:index, :show, :new, :create, :destroy] do
       resources :polls, :only => [:index, :show, :create, :update, :destroy] do
         resources :poll_responses, :only => [:create]
       end
