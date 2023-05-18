@@ -1,0 +1,102 @@
+<div id="main">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to @course.name, course_path(@course) %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to "All polls", course_question_polls_path(@course, @question) %>
+    </li>
+    <li class="breadcrumb-item active">Poll details</li>
+  </ol>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-header">
+        <% if question_type(@question.type) == "Attendance" %>
+          <h5 class="card-title">
+            <%= "Attendance poll for #{Date.today}" %>
+          </h5>
+        <% else %>
+          <h5 class="card-title">
+            <%= "Poll round #{@poll.round} for \"#{@question.qname}\" (#{@course.name})" %>
+          </h5>
+          <h6 class="card-subtitle">
+            <span>
+              <%= octicon question_icon(@question.type), :height => 18 %>
+            </span>
+            <span>
+              <%= "#{question_type(@question.type)} question --- " %>
+            </span>
+            <% if @poll.isopen %>
+              <span class="badge badge-success">open</span>
+            <% else %>
+              <span class="badge badge-danger">closed</span>
+            <% end %>
+          </h6>
+        <% end %>
+      </div>
+      <hr/>
+      <div class="card-body">
+        <h3>
+          <%= @question.prompt %>
+        </h3>
+        <% if @question.qcontent.is_a? Array %>
+          <ul class="list-group list-group-flush"></ul>
+          <% @question.qcontent.each do |opt| %>
+            <li class="list-group-item">
+              <%= "#{opt}" %>
+            </li>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-2">
+      <%= link_to "Notify", poll_notify_path(@poll), method: :get, remote: true, :class => "btn btn-primary", :id => "notify" %>
+    </div>
+    <% if @poll.isopen %>
+      <div class="col-2">
+        <%= link_to "Stop poll", course_question_poll_path(@course, @question, @poll), :method => :put, :class => "btn btn-warning" %>
+      </div>
+    <% end %>
+  </div>
+  <br/>
+  <div>
+    <h5>
+      <span>
+        <%= octicon "unfold", :height => 32, :id => "responseunfold" %>
+      </span>
+      <span>Responses:</span>
+      <span id="responsecount">
+        <%= @poll.responses.values.inject(:+) %>
+      </span>
+      <span><%= link_to "Cold call", course_question_poll_path(@course, @question, @poll, :coldcall => true), :method => :get, :class => "btn btn-sm btn-secondary" %></span>
+    </h5>
+    <div class="hidden" id="responses"
+           data-qtype="<%= @question.type %>"
+           data-responsevalues="<%= @qoptionspacked %>"
+           data-responsecounts="<%= @presponsespacked %>">
+      <div id="plotspace"></div>
+      <br/>
+      <table class="table">
+        <% @poll.responses.each_pair do |v,count|  %>
+          <tr class="<%= row_class(@question, v) %>">
+            <th>
+              <%= v %>
+            </th>
+            <td>
+              <%= count %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  <br/>
+  <br/>
+</div>
+<div id="bottom"></div>

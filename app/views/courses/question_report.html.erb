@@ -1,0 +1,40 @@
+<% # %p= @response_matrix %>
+<h3>
+  <%= "Question report for #{@course.name}" %>
+</h3>
+<table class="table-striped table-bordered">
+  <tr>
+    <td class="small">Date</td>
+    <td class="small">qId</td>
+    <td class="small">pId</td>
+    <td class="small">qType</td>
+    <% @course.students.each do |s| %>
+      <th>
+        <p class="vertical_orientation">
+          <%= s.email %>
+        </p>
+      </th>
+    <% end %>
+  </tr>
+  <% @response_matrix.each do |row| %>
+    <tr>
+      <td class="small">
+        <%= "#{row[0]}" %>
+      </td>
+      <td class="small">
+        <%= "#{row[1]}" %>
+      </td>
+      <td class="small">
+        <%= "#{row[2]}" %>
+      </td>
+      <td class="small">
+        <%= "#{row[3]}" %>
+      </td>
+      <% row[4..].each do |val| %>
+        <td class="small">
+          <%= "#{val}" %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

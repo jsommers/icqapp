@@ -63,6 +63,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_172208) do
     t.index ["user_id", "attendance_id"], name: "index_attendances_users_on_user_id_and_attendance_id", unique: true
   end
 
+  create_table "cold_calls", force: :cascade do |t|
+    t.integer "count"
+    t.integer "user_id", null: false
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_cold_calls_on_course_id"
+    t.index ["user_id"], name: "index_cold_calls_on_user_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.string "daytime"
@@ -121,6 +131,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_172208) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "attendances", "courses"
+  add_foreign_key "cold_calls", "courses"
+  add_foreign_key "cold_calls", "users"
   add_foreign_key "poll_responses", "polls"
   add_foreign_key "poll_responses", "users"
   add_foreign_key "polls", "questions"
