@@ -27,16 +27,14 @@
             <span>
               <%= "#{question_type(@question.type)} question" %>
             </span>
+            <span>
+              <%= @question.content %>
+            </span>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <% if @question.image.attached? %>
-    <p>
-      <%= image_tag @question.image.variant(resize: "480x480^"), :width => "90%" %>
-    </p>
-  <% end %>
   <table class="table">
     <tr>
       <th>Poll round</th>
@@ -61,10 +59,10 @@
           <%= p.poll_responses.count %>
         </td>
         <td>
-          <%= link_to "Notify", poll_notify_path(p), method: :get, remote: true, :class => "btn btn-primary", :id => "notify" %>
+          <%= link_to "Notify", poll_notify_path(p), method: :get, :class => "btn btn-primary", :id => "notify" %>
         </td>
         <td>
-          <%= link_to "Delete", course_question_poll_path(@course, @question, p), method: :delete, :class => "btn btn-danger" %>
+          <%= link_to "Delete", course_question_poll_path(@course, @question, p), method: :delete, data: { turbo_method: "delete" }, :class => "btn btn-danger" %>
         </td>
       </tr>
     <% end %>
@@ -72,6 +70,6 @@
 </div>
 <div id="bottom">
   <p>
-    <%= link_to "New poll", course_question_polls_path(@course, @question), method: :post, :class => "btn btn-primary" %>
+    <%= button_to "New poll", course_question_polls_path(@course, @question), :class => "btn btn-primary" %>
   </p>
 </div>
