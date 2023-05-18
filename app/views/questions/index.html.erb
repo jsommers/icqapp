@@ -39,7 +39,8 @@
       </span>
     </div>
   </div>
-  <table class="table" id='question_table'>
+  <table class="table">
+    <thead>
     <tr>
       <th>Name</th>
       <th># Polls</th>
@@ -50,19 +51,15 @@
       <th>Delete</th>
       <th>New Poll</th>
     </tr>
-    <% @questions.each do |question| %>
-      <% @question = question %>
-      <%= turbo_frame_tag dom_id(question) do %>
-        <%= render partial: 'question', locals: {question: question} %>
-      <% end %>
-    <% end %>
+    </thead>
+    <tbody id='question_table'>
+      <%= render partial: 'question', collection: @questions %>
+    </tbody>
   </table>
 
   <div id="bottom">
-    <%= turbo_frame_tag 'question_form' do %>
-      <div id="form">
-        <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
-      <div>
-    <% end %>
+    <div id="form">
+      <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
+    <div>
   </div>
 </div>

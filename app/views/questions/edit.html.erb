@@ -1,11 +1,10 @@
 <div id="main">
-  <%= turbo_frame_tag dom_id(@q) do %>
-    <div id="form">
-      <%= render partial: 'qform', locals: {course: @course, q: @q} %>
-    <div>
-  <% end %>
+  <div id="form">
+    <%= render partial: 'qform' %>
+  <div>
 
+  <br>
   <div id="bottom">
-    <%= link_to "Back to question index", course_questions_path(@course) %>
+    <%= link_to "Back to question index", course_questions_path(@course), class: 'btn btn-primary' %>
   </div>
 </div>

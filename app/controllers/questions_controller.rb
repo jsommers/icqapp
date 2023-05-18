@@ -22,13 +22,11 @@ class QuestionsController < ApplicationController
   def update
     @course = Course.find(params[:course_id])    
     @question = Question.find(params[:id])
-    if @question.update(create_update_params)
-      render @question, partial: 'questions/question'
-    else
+    unless @question.update(create_update_params)
       msg = @question.errors.full_messages.join('; ')
       flash[:warning] = "Question not updated: #{msg}"
-      redirect_to course_questions_path(@course) and return
     end
+    redirect_to course_questions_path(@course) 
   end
 
   def create
@@ -40,7 +38,6 @@ class QuestionsController < ApplicationController
           flash[:notice] = "#{@question.qname} created"
           redirect_to course_questions_path(@course) and return
         end
-        format.turbo_stream 
       end
     else
       msg = @question.errors.full_messages.join('; ')
