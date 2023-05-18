@@ -31,6 +31,7 @@ module QuestionsHelper
       when "MultiChoiceQuestion"
         s = ""
         q.content.to_plain_text.each_line do |opt|
+          opt.strip!
           h = {:class => "form-check-input"}
           t = radio_button_tag('response', opt, opt == curr, **h)
           t += label_tag(opt, opt)
