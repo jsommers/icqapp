@@ -64,13 +64,27 @@ RSpec.feature "Attendance", type: :feature do
       expect(page.text).to match(/Attendance check-in successful/i)
     end
 
-    it "should allow a student to check in if they haven't" do
+    it "should not allow a student to check in if attendance isn't open" do
       s = FactoryBot.create(:student)
       sign_in s
       c = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
       c.students << s
       visit course_path(c)
       expect(page.text).to match(/attendance check-in is not open/i)
+    end
+
+    it "should correctly note if attendance is taken for a given student" do
+      s = FactoryBot.create(:student)
+      sign_in s
+      c = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
+      c.students << s
+      c.open_attendance
+      visit course_path(c)
+
+      click_on "Attendance check-in"
+      expect(page.text).to match(/Attendance check-in successful/i)
+      expect(c.attendance_today).to be_an_instance_of(Attendance)
+      expect(c.attendance_today.checked_in?(s)).to be true
     end
   end
 end

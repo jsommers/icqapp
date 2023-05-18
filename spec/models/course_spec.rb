@@ -66,26 +66,26 @@ RSpec.describe Course, type: :model do
   #   end
   # end
 
-  # describe "attendance" do
-  #   it "should correctly if attendance is taken, if it hasn't been" do
-  #     c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
-  #     expect(c.attendance_taken?).to be false
-  #     expect(c.attendance_today).to be_nil
-  #   end
+  describe "attendance" do
+    it "should correctly note if attendance is taken, if it hasn't been" do
+      c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
+      expect(c.attendance_taken?).to be false
+      expect(c.attendance_today).to be_nil
+    end
 
-  #   it "should correctly if attendance is taken, if it is in progress" do
-  #     c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
-  #     c.open_attendance
-  #     expect(c.attendance_today).to be_an_instance_of(Attendance)
-  #     expect(c.attendance_active?).to be true
-  #   end
+    it "should correctly note if attendance is taken, if it is in progress" do
+      c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
+      c.open_attendance
+      expect(c.attendance_today).to be_an_instance_of(Attendance)
+      expect(c.attendance_active?).to be true
+    end
 
-  #   it "should correctly if attendance is taken, if it is done" do
-  #     c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
-  #     c.open_attendance
-  #     c.close_attendance
-  #     expect(c.attendance_today).to be_an_instance_of(Attendance)
-  #     expect(c.attendance_active?).to be false
-  #   end
-  # end
+    it "should correctly note if attendance is taken, if it is done" do
+      c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
+      c.open_attendance
+      c.close_attendance
+      expect(c.attendance_today).to be_an_instance_of(Attendance)
+      expect(c.attendance_active?).to be false
+    end
+  end
 end
