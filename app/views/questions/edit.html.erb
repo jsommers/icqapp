@@ -1,5 +1,5 @@
 <div id="main">
-  <%= turbo_frame_tag 'question_form' do %>
+  <%= turbo_frame_tag dom_id(@q) do %>
     <div id="form">
       <%= render partial: 'qform', locals: {course: @course, q: @q} %>
     <div>

@@ -1,0 +1,28 @@
+<tr>
+    <td>
+        <%= link_to question.qname, course_question_polls_path(@course, question), :class => "btn btn-light" %>
+    </td>
+    <td>
+        <%= question.polls.count %>
+    </td>
+    <td>
+        <%= octicon question_icon(question.type), :height => 32, :"aria-label" => question_type(question.type), :class => 'octicon', :alt => question_type(question.type) %>
+    </td>
+    <td>
+        <%= question.content %>
+    </td>
+    <td>
+        <%= time_tag question.created_at.localtime, :format => "%Y/%m/%d" %>
+    </td>
+    <td>
+        <%= link_to "Edit", edit_course_question_path(@course, question), method: :edit, class: "btn btn-secondary", id: "edit_#{question.qname}" %>
+    </td>
+    <td>
+        <%= link_to "Delete", course_question_path(@course, question), method: :delete, data: { turbo_method: "delete" }, class: "btn btn-danger", id: "destroy_#{question.qname}" %>
+    </td>
+    <td>
+        <%= link_to "Activate", course_question_polls_path(@course, question), method: :post, id: "create_#{question.qname}", class: "btn btn-success" %>
+    </td>
+</tr>
+
+

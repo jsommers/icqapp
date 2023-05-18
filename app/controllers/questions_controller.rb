@@ -14,15 +14,36 @@ class QuestionsController < ApplicationController
     @q = Question.new
   end
 
+  def edit
+    @course = Course.find(params[:course_id])    
+    @q = Question.new
+  end
+
+  def update
+    @course = Course.find(params[:course_id])    
+    @question = Question.find(params[:id])
+    if @question.update(create_update_params)
+      render @question, partial: 'questions/question'
+    else
+      msg = @question.errors.full_messages.join('; ')
+      flash[:warning] = "Question not updated: #{msg}"
+      redirect_to course_questions_path(@course) and return
+    end
+  end
+
   def create
     @course = Course.find(params[:course_id])    
-    @q = @course.questions.create(create_params)
-    @q.image.attach(create_params[:image])
-    if @q.persisted?
-      flash[:notice] = "#{@q.qname} created"
-      redirect_to course_questions_path(@course) and return
+    @question = @course.questions.create(create_update_params)
+    if @question.persisted?
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "#{@question.qname} created"
+          redirect_to course_questions_path(@course) and return
+        end
+        format.turbo_stream 
+      end
     else
-      msg = @q.errors.full_messages.join('; ')
+      msg = @question.errors.full_messages.join('; ')
       flash[:warning] = "No question created: #{msg}"
       redirect_to new_course_question_path(@course) and return
     end
@@ -37,8 +58,8 @@ class QuestionsController < ApplicationController
   end
 
 private
-  def create_params
-    p = params.require(:question).permit(:qname, :type, :qcontent, :content_type, :answer, :image)
+  def create_update_params
+    p = params.require(:question).permit(:qname, :type, :content, :answer)
     # reform qcontent into an array
     if p[:qcontent]
       p[:qcontent] = p[:qcontent].split.collect { |s| s.strip }

@@ -39,45 +39,30 @@
       </span>
     </div>
   </div>
-  <table class="table">
+  <table class="table" id='question_table'>
     <tr>
       <th>Name</th>
       <th># Polls</th>
       <th>Type</th>
-      <th>Image</th>
+      <th>Question</th>
       <th>Date</th>
+      <th>Edit</th>
       <th>Delete</th>
       <th>New Poll</th>
     </tr>
-    <% @questions.each do |q| %>
-      <tr>
-        <td>
-          <%= link_to q.qname, course_question_polls_path(@course, q), :class => "btn btn-light" %>
-        </td>
-        <td>
-          <%= q.polls.count %>
-        </td>
-        <td>
-          <%= octicon question_icon(q.type), :height => 32, :"aria-label" => question_type(q.type), :class => 'octicon', :alt => question_type(q.type) %>
-        </td>
-        <td>
-          <%= q.content %>
-        </td>
-        <td>
-          <%= time_tag q.created_at.localtime, :format => "%Y/%m/%d" %>
-        </td>
-        <td>
-          <%= link_to "Delete", course_question_path(@course, q), method: :delete, class: "btn btn-danger", id: "destroy_#{q.qname}" %>
-        </td>
-        <td>
-          <%= link_to "Activate", course_question_polls_path(@course, q), method: :post, id: "create_#{q.qname}", class: "btn btn-success" %>
-        </td>
-      </tr>
+    <% @questions.each do |question| %>
+      <% @question = question %>
+      <%= turbo_frame_tag dom_id(question) do %>
+        <%= render partial: 'question', locals: {question: question} %>
+      <% end %>
     <% end %>
   </table>
+
   <div id="bottom">
-    <p>
-      <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
-    </p>
+    <%= turbo_frame_tag 'question_form' do %>
+      <div id="form">
+        <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
+      <div>
+    <% end %>
   </div>
 </div>

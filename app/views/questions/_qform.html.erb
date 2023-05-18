@@ -1,0 +1,23 @@
+<%= form_with model: [course, q] do |form| %>
+  <div class="field">
+    <%= form.label :qname, "Question text:" %>
+    <%= form.text_field :qname %>
+  </div>
+  <br/>
+  <div class="field">
+    <%= form.label :type, "Question type:" %>
+    <%= form.select :type, question_types %>
+  </div>
+  <br/>
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.rich_text_area :content %>
+  </div>
+  <br/>
+  <div class="field">
+    <%= form.label :answer, 'Answer:' %>
+    <%= form.text_field :answer %>
+  </div>
+  <br/>
+  <%= form.submit %>
+<% end %>
