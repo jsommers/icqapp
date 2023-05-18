@@ -108,67 +108,67 @@ class CoursesController < ApplicationController
 #    end
 #    render json: {'status': status, 'path': status_path }
 #  end
-#
-#  def create_and_activate
-#    course = params[:c]
-#    question = params[:q]
-#    answer = params[:a]
-#    opts = params[:o]
-#    numopts = params[:n].to_i
-#    t = params[:t] || 'm' # m, n, f
-#    t = t.to_sym
-#    @course = Course.where(:name => course).first
-#    if !@course
-#      flash[:notice] = "Course #{course} doesn't exist"
-#      redirect_to courses_path and return
-#    end
-#
-#    @question = Question.new
-#    qtypes = {:m => MultiChoiceQuestion, :n => NumericQuestion, :f => FreeResponseQuestion }
-#    qt = qtypes[t]
-#    if qt.nil?
-#      flash[:notice] = "Question type #{params[:t]} doesn't exist"
-#      redirect_to course_path(@course) and return
-#    end
-#
-#    if question.nil?
-#      flash[:notice] = "No question text given!"
-#      redirect_to course_path(@course) and return
-#    end
-#
-#    @question = qt.send(:new)
-#    @question.answer = answer
-#    @question.qname = question
-#    if t == :m
-#      if opts
-#        # @question.qcontent = strip_optnums(opts.split(/\n/))
-#        @question.qcontent = opts.split(/\n/)
-#      else
-#        alpha = ('A'..'J').to_a
-#        @question.qcontent = alpha[0...numopts]
-#      end
-#    end
-#
-#    @question.course = @course
-#    if !@question.save
-#      flash[:alert] = "Failed to save question #{question}"
-#      redirect_to course_questions_path(@course) and return
-#    end
-#
-#    # close all other polls
-#    Poll.closeall(@course)
-#    num = @question.polls.maximum(:round).to_i
-#    @poll = @question.new_poll
-#    @poll.isopen = true
-#    @poll.round = num + 1
-#    if !@poll.save
-#      flash[:alert] = "Failed to save poll for question #{question}"
-#      redirect_to course_question_path(@course, @question) and return
-#    end
-#
-#    flash[:notice] = "Started new poll"
-#    redirect_to course_question_poll_path(@course, @question, @poll) and return
-#  end
+
+ def create_and_activate
+   course = params[:c]
+   question = params[:q]
+   answer = params[:a]
+   opts = params[:o]
+   numopts = params[:n].to_i
+   t = params[:t] || 'm' # m, n, f
+   t = t.to_sym
+   @course = Course.where(:name => course).first
+   if !@course
+     flash[:notice] = "Course #{course} doesn't exist"
+     redirect_to courses_path and return
+   end
+
+   @question = Question.new
+   qtypes = {:m => MultiChoiceQuestion, :n => NumericQuestion, :f => FreeResponseQuestion }
+   qt = qtypes[t]
+   if qt.nil?
+     flash[:notice] = "Question type #{params[:t]} doesn't exist"
+     redirect_to course_path(@course) and return
+   end
+
+   if question.nil?
+     flash[:notice] = "No question text given!"
+     redirect_to course_path(@course) and return
+   end
+
+   @question = qt.send(:new)
+   @question.answer = answer
+   @question.qname = question
+   @question.content = opts
+   if t == :m
+     if opts
+       @question.content = opts
+     else
+       alpha = ('A'..'J').to_a
+       @question.content = alpha[0...numopts].join('\n')
+     end
+   end
+
+   @question.course = @course
+   if !@question.save
+     flash[:alert] = "Failed to save question #{question}"
+     redirect_to course_questions_path(@course) and return
+   end
+
+   # close all other polls
+   Poll.closeall(@course)
+   num = @question.polls.maximum(:round).to_i
+   @poll = @question.new_poll
+   @poll.isopen = true
+   @poll.round = num + 1
+   if !@poll.save
+     flash[:alert] = "Failed to save poll for question #{question}"
+     redirect_to course_question_path(@course, @question) and return
+   end
+
+   flash[:notice] = "Started new poll"
+   redirect_to course_question_poll_path(@course, @question, @poll) and return
+ end
 
 private
 
