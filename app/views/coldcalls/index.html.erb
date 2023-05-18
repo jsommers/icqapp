@@ -1,0 +1,18 @@
+<div id="main">
+<h2>Cold calls for <%= @course.name %></h2>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item">
+      <%= link_to "#{@course.name}", course_path(@course) %>
+    </li>
+    <li class="breadcrumb-item active">
+      Cold call report
+    </li>
+</ol>
+<br>
+
+<%= render partial: 'coldcall', collection: @coldcalls %>
+
+</div>
