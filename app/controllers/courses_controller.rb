@@ -22,13 +22,6 @@ class CoursesController < ApplicationController
       if !current.nil?
         @response = current
       end
-      @pid = @poll.id
-      @qid = @question.id
-      @qname = @question.qname
-    else
-      @pid = 0
-      @qid = 0
-      @qname = ""
     end
     @activepoll = !!@poll
   end

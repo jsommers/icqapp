@@ -35,6 +35,7 @@ class PollsController < ApplicationController
     @poll = @question.new_poll
     @poll.isopen = true
     @poll.round = num + 1
+    # @poll.update_active_question
     if @poll.save
       flash[:notice] = "Poll started for #{@question.qname}"
       redirect_to course_question_poll_path(@course, @question, @poll)
@@ -49,6 +50,7 @@ class PollsController < ApplicationController
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
     @poll.update(:isopen => false)
+    # @poll.update_active_question
     flash[:notice] = "Poll stopped for #{@question.qname}"
     redirect_to course_question_poll_path(@course, @question, @poll)
   end

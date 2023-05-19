@@ -1,11 +1,11 @@
 <div class="card" id="qcard">
   <div class="card-body">
-    <h3 class="card-title" data-ids="<%= @course.id %> <%= @qid %> <%= @pid %>" id="squestion">
-      <%= @qname  %>
-    </h3>
-    <h4 class="card-subtitle">
-      <%= @qprompt %>
+    <h4 class="card-title" id="squestion">
+      <%= @question.qname  %>
     </h4>
+    <div class="card-subtitle">
+      <%= @question.content %>
+    </div>
     <hr/>
     <div class="card-text">
       <%= form_with model: @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :local => true do %>

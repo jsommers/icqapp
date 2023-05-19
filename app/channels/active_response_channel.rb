@@ -1,12 +1,11 @@
 class ActiveResponseChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    stream_from 'active_response'
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
   end
 
-  def update
+  def self.update(responsecount)
   end
 end

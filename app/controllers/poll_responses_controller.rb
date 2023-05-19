@@ -1,4 +1,5 @@
 class PollResponsesController < ApplicationController
+
   def create
     @course = Course.find(params[:course_id])
 
@@ -15,16 +16,22 @@ class PollResponsesController < ApplicationController
       redirect_to course_path(@course) and return
     end
 
+    @activepoll = true
     r = @poll.poll_responses.where(:user => current_user).first
     if !r
       r = @poll.new_response(:user => current_user)
     end
     r.response = params[:response]
-    if r.save
-      flash[:notice] = "Response recorded"
-    else
-      flash[:notice] = "Saving response failed"
+    respond_to do |format|
+      if r.save
+        flash[:notice] = "Response recorded"
+        format.html { redirect_to course_path(@course) }
+        turbo_stream 
+      else
+        flash[:alert] = "Saving response failed"
+        format.html { redirect_to course_path(@course) }
+        turbo_stream
+      end
     end
-    redirect_to course_path(@course) and return
   end
 end

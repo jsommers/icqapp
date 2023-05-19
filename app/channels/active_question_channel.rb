@@ -1,10 +1,9 @@
 class ActiveQuestionChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    stream_from 'active_question'
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
   end
 
   def question_update
