@@ -1,0 +1,2 @@
+class MultiChoicePollResponse < PollResponse
+end

@@ -1,11 +1,18 @@
 <div id="main">
   <%= link_to "Review past questions", course_questions_path(@course), :class => "btn btn-outline-primary" %>
   <%= render :partial => 'attendance' %>
-  <% if @activepoll %>
-    <%= render :partial => "active" %>
-  <% else %>
-    <%= render :partial => "noactive" %>
-  <% end %>
+
+  <%= turbo_stream_from 'question_update', :question, channel: ActiveQuestionChannel %>
+
+  <div id="question">
+    <% if @activepoll %>
+      <%= render :partial => "active" %>
+    <% else %>
+      <%= render :partial => "noactive" %>
+    <% end %>
+  </div>
+
   <br/>
+
   <div id="bottom"></div>
 </div>

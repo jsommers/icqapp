@@ -3,15 +3,3 @@ class PollResponse < ApplicationRecord
   belongs_to :poll
   validates_associated :user
 end
-
-class MultiChoicePollResponse < PollResponse
-end
-
-class FreeResponsePollResponse < PollResponse
-end
-
-class NumericPollResponse < PollResponse
-  def response
-    read_attribute(:response).to_f
-  end
-end

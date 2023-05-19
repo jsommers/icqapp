@@ -1,0 +1,2 @@
+class FreeResponsePollResponse < PollResponse
+end

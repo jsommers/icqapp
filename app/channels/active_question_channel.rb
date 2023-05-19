@@ -7,9 +7,6 @@ class ActiveQuestionChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def enable
-  end
-
-  def disable
+  def question_update
   end
 end
