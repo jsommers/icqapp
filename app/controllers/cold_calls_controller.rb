@@ -1,4 +1,4 @@
-class ColdcallsController < ApplicationController
+class ColdCallsController < ApplicationController
   before_action :redirect_if_student
 
   def index
@@ -15,19 +15,19 @@ class ColdcallsController < ApplicationController
     @course = Course.find(params[:course_id])
     @coldcall = ColdCall.find(params[:id])
     @coldcall.count = count_param
-    if @coldcall.save
-      flash[:notice] = "Cold call count updated for #{user_email}"
-    else
-      flash[:alert] = "Error saving updated count for user #{user_email}"
+    respond_to do |format|
+      if @coldcall.save
+        format.html { 
+          redirect_to course_cold_calls_path(@course), notice: "Cold call count updated for #{user_email}" }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@coldcall) }
+      else
+        format.html { 
+          redirect_to course_cold_calls_path(@course), alert: "Error saving updated count for user #{user_email}" }
+      end
     end
-    redirect_to course_coldcalls_path(@course)
   end
 
 private
-  def user_param
-    params.require(:user)
-  end
-
   def user_email
     params.require(:email)
   end

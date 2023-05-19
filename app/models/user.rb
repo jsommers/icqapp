@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :attendances
   has_many :poll_responses, :dependent => :destroy
   has_many :polls, :through => :poll_responses
+  has_many :cold_calls
 
   scope :students, ->() { where(admin: false).order(:email) }
   scope :instructors, ->() { where(admin: true).order(:email) }

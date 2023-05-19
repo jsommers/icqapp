@@ -2,11 +2,13 @@ class Course < ApplicationRecord
   validates :name, :presence => true
   validates :daytime, :presence => true, :format => { with: /[MTWRF]{2,3} \d{1,2}:\d{2}-\d{1,2}:\d{2}/ }
 
-  has_and_belongs_to_many :students, -> { where admin: false }, class_name: "User"
+  has_and_belongs_to_many :students, -> { where admin: false }, class_name: "User", \
+      after_add: :create_coldcall, after_remove: :remove_coldcall
   has_and_belongs_to_many :instructors, -> { where admin: true}, class_name: "User"
 
   has_many :questions, :dependent => :destroy
   has_many :attendance, :dependent => :destroy
+  has_many :cold_calls
 
   def active_question
     questions.joins([:polls]).where("polls.isopen = ?", true).first
@@ -58,5 +60,14 @@ class Course < ApplicationRecord
     xend = $4.to_i * 60 + $5.to_i
     xnow = n.hour * 60 + n.min
     return xnow >= xstart && xnow <= xend 
+  end
+
+  def create_coldcall(student)
+    ColdCall.create!(course: self, user: student, count: 0)            
+  end
+
+  def remove_coldcall(student)
+    cc = ColdCall.where(course: self, user: student).first
+    cc.destroy
   end
 end

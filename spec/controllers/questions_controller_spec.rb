@@ -47,8 +47,16 @@ RSpec.describe QuestionsController, type: :controller do
       a = FactoryBot.create(:admin)
       sign_in a
       c = FactoryBot.create(:course)      
-      post :create, :params => {:course_id => c.id, :question => {:qname => "", :qcontent => "", :type => "MultiChoiceQuestion" }}
+      post :create, :params => {:course_id => c.id, :question => {:qname => "", :content => "", :type => "MultiChoiceQuestion" }}
       expect(response).to redirect_to(new_course_question_path(c))
+    end
+
+    it "redirects to course questions on success" do
+      a = FactoryBot.create(:admin)
+      sign_in a
+      c = FactoryBot.create(:course)      
+      post :create, :params => {:course_id => c.id, :question => {:qname => "question name", :content => "one\ntwo\nthree\n", :type => "MultiChoiceQuestion" }}
+      expect(response).to redirect_to(course_questions_path(c))
     end
   end
 end

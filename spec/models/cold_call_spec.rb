@@ -13,30 +13,29 @@ RSpec.describe ColdCall, type: :model do
       @c.students << @s2
     end
 
+    it "should set coldcall count to 0 when student is added to class" do
+      expect(ColdCall.where(course: @c, user: @s1).first.count).to eq(0)
+      expect(ColdCall.where(course: @c, user: @s2).first.count).to eq(0)
+    end
+
     it "should initialize a coldcall record if student hasn't been called on" do
-      expect(ColdCall.count).to eq(0)
+      expect(ColdCall.count).to eq(@c.students.count)
       s = ColdCall.random_student(@c)
-      expect(ColdCall.count).to eq(1)
-      expect((ColdCall.where(course: @c).first).user).to eq(s)
-      expect((ColdCall.where(course: @c).first).count).to eq(1)
+      expect(ColdCall.where(course: @c).sum(:count)).to eq(1)
     end
 
     it "should increment coldcall record if student is called on again" do
-      ColdCall.create!(course: @c, user: @s1, count: 1)
-      ColdCall.create!(course: @c, user: @s2, count: 1)
-      expect(ColdCall.count).to eq(2)
+      @c.students.delete @s2
       s = ColdCall.random_student(@c)
-      expect(ColdCall.count).to eq(2)
+      s = ColdCall.random_student(@c)
       expect((ColdCall.where(course: @c, user: s).first).count).to eq(2)
-      expect((ColdCall.where.not(user: s).first).count).to eq(1)
     end
 
     it "should cycle through students so everyone is called on once before being called a second time" do
-      expect(ColdCall.count).to eq(0)
+      expect(ColdCall.count).to eq(@c.students.count)
       4.times do 
         ColdCall.random_student(@c)
       end
-      expect(ColdCall.count).to eq(2)
       expect(ColdCall.all.pluck('count')).to eq([2,2])
     end
   end

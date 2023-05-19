@@ -11,10 +11,6 @@ class Question < ApplicationRecord
     polls.where(:isopen => true).first
   end
 
-  def poll_responses_for(user)
-    user.poll_responses
-  end
-
 protected
   def content_length
     if content.to_plain_text.length < 5

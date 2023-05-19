@@ -1,0 +1,7 @@
+<%= turbo_frame_tag dom_id(cold_call) do %>
+  <div class="row">
+    <div class="col"><%= cold_call.user.email %></div>
+    <div class="col"><%= cold_call.count %></div>
+    <div class="col"><%= link_to "Edit", edit_course_cold_call_path(@course, cold_call), class: "btn btn-secondary" %></div>
+  </div>
+<% end %>

@@ -1,25 +1,17 @@
 class ColdCall < ApplicationRecord
   belongs_to :user
   belongs_to :course
+  validates :count, numericality: { greater_than_or_equal_to: 0 }
 
   def self.random_student(course)
+    # assumes that student has been initialized in cold_calls table with count of 0
+    # NB: happens as a callback in Course when student is associated
     mincount = ColdCall.where(course: course).minimum(:count).to_i
-    cccount = ColdCall.where(course: course).count
-    stdcount = course.students.count
-    if cccount < stdcount
-      # need to get a random student from course, not coldcall
-      idset = ColdCall.where(course: course).pluck('user_id') 
-      lucky = course.students.where.not(id: idset).shuffle()[0]
-      cc = ColdCall.new(course: course, user: lucky, count: 1)
-      cc.save
-    else
-      cc = ColdCall.where(course: course, count: mincount)
-      lucky = User.find(cc.shuffle()[0].user_id)
-      cc = ColdCall.where(course: course, user: lucky).first
-      cc.count += 1
-      cc.save
-    end
-    return lucky
+    cc = ColdCall.where(course: course, count: mincount)
+    lucky = User.find(cc.shuffle()[0].user_id)
+    cc = ColdCall.where(course: course, user: lucky).first
+    cc.count += 1
+    cc.save
+    lucky
   end
-
 end

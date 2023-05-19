@@ -73,7 +73,7 @@ RSpec.describe CoursesController, type: :controller do
       expect(response).to redirect_to(course_path(c1))
     end
 
-    it "should redirect to course going on now if available for admin (1)" do
+    it "should NOT redirect to course going on now if available for admin (1)" do
       a = FactoryBot.create(:admin)
       c1 = FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
       c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
@@ -81,10 +81,10 @@ RSpec.describe CoursesController, type: :controller do
       allow(Time).to receive(:now) { Time.new(2019, 5, 13, 9, 30, 0, "-05:00") }
       sign_in a
       get :index
-      expect(response).to redirect_to(course_path(c1))
+      expect(response).to have_http_status(:success)
     end
 
-    it "should redirect to course going on now if available for admin (2)" do
+    it "should NOT redirect to course going on now if available for admin (2)" do
       a = FactoryBot.create(:admin)
       c1 = FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
       c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
@@ -92,7 +92,7 @@ RSpec.describe CoursesController, type: :controller do
       allow(Time).to receive(:now) { Time.new(2019, 5, 14, 9, 30, 0, "-05:00") }
       sign_in a
       get :index
-      expect(response).to redirect_to(course_path(c2))
+      expect(response).to have_http_status(:success)
     end
 
     it "should redirect to course index if no course is on now for std" do

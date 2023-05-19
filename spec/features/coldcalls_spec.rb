@@ -22,12 +22,22 @@ RSpec.feature "Coldcalls", type: :feature do
     end
 
     it "should allow editing of existing cold calls" do
-      visit course_coldcalls_path(@c)
+      visit course_cold_calls_path(@c)
       expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
       click_on "Edit"
       fill_in :count, :with => "13"
       click_on "Save"
       expect(page.text).to match(/student\d+@colgate.edu\s+13\s*/)
+    end
+
+    it "should redirect to cold calls index on edit/update failure" do
+      visit course_cold_calls_path(@c)
+      expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
+      click_on "Edit"
+      fill_in :count, :with => "-1"
+      click_on "Save"
+      # NB: no change on count w/invalid count
+      expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
     end
   end
 end
