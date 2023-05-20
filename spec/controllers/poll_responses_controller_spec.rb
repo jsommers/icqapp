@@ -63,7 +63,7 @@ RSpec.describe PollResponsesController, type: :controller do
       expect(p).to receive(:isopen) { true }
       expect(pr).to receive(:save) { nil }
       expect(pr).to receive(:response=) { nil }
-      expect(Poll).to receive(:find).with("1") { p }
+      expect(Poll).to receive(:find).at_least(:once).with("1") { p }
 
       post :create, :params => {:course_id => c.id, :question_id => q.id, :poll_id => p.id, :response => "1.0"}
       expect(response).to have_http_status(:redirect)

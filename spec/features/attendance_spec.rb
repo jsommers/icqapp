@@ -60,8 +60,7 @@ RSpec.feature "Attendance", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/attendance check-in/i)
       click_on "Attendance check-in"
-      # expect(page.text).to match(/you're checked in for today/i)
-      expect(page.text).to match(/Attendance check-in successful/i)
+      expect(page.text).to match(/you're checked in for today/i)
     end
 
     it "should not allow a student to check in if attendance isn't open" do
@@ -82,7 +81,7 @@ RSpec.feature "Attendance", type: :feature do
       visit course_path(c)
 
       click_on "Attendance check-in"
-      expect(page.text).to match(/Attendance check-in successful/i)
+      expect(page.text).to match(/You're checked in for today/i)
       expect(c.attendance_today).to be_an_instance_of(Attendance)
       expect(c.attendance_today.checked_in?(s)).to be true
     end
