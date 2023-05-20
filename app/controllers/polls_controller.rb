@@ -11,6 +11,7 @@ class PollsController < ApplicationController
     @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
+    @poll_response_count = @poll.poll_responses.count
     if params[:coldcall] 
       @lucky = ColdCall.random_student(@course)
       flash[:notice] = "Random student: #{@lucky.email}"

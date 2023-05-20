@@ -68,9 +68,10 @@
       </span>
       <span>Responses:</span>
 
-      <div id="responsecount">
-        <%= @poll.responses.values.inject(:+) %>
-      </div>
+      <%= turbo_stream_from 'poll_responses' %>
+
+      <%= render partial: 'poll_response_count', locals: { poll_response_count: @poll_response_count } %>
+
       <span><%= link_to "Cold call", course_question_poll_path(@course, @question, @poll, :coldcall => true), :method => :get, :class => "btn btn-sm btn-secondary" %></span>
     </h5>
 
