@@ -2,7 +2,7 @@ class PollResponse < ApplicationRecord
   belongs_to :user
   belongs_to :poll
   validates_associated :user
-
+  validates :response, presence: true
   after_commit :update_poll_responses
 
   protected
