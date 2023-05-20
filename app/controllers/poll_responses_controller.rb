@@ -17,20 +17,22 @@ class PollResponsesController < ApplicationController
     end
 
     @activepoll = true
-    r = @poll.poll_responses.where(:user => current_user).first
-    if !r
-      r = @poll.new_response(:user => current_user)
+    @poll_response = @poll.poll_responses.where(:user => current_user).first
+    if !@poll_response
+      @poll_response = @poll.new_response(:user => current_user)
     end
-    r.response = params[:response]
-    respond_to do |format|
-      if r.save
-        flash[:notice] = "Response recorded"
+    @poll_response.response = params[:response]
+    if @poll_response.save
+      flash[:notice] = "Response recorded"
+      respond_to do |format|
         format.html { redirect_to course_path(@course) }
-        turbo_stream 
-      else
-        flash[:alert] = "Saving response failed"
+        format.turbo_stream 
+      end
+    else
+      flash[:alert] = "Saving response failed"
+      respond_to do |format|
         format.html { redirect_to course_path(@course) }
-        turbo_stream
+        format.turbo_stream
       end
     end
   end

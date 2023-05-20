@@ -1,5 +1,7 @@
-<%# FIXME: flash %>
+<%= turbo_stream.replace 'flash' do %>
+  <%= render partial: 'common/flash' %>
+<% end %>
 
 <%= turbo_stream.replace 'activequestion' do %>
-  <%= render partial: 'course/show' %>
+  <%= render partial: 'courses/activequestion', locals: {course: @course, question: @question, poll: @poll, poll_response: @poll_response, activepoll: @activepoll} %>
 <% end %>

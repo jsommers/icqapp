@@ -1,17 +1,17 @@
 <div class="card" id="qcard">
   <div class="card-body">
     <h4 class="card-title" id="squestion">
-      <%= @question.qname  %>
+      <%= question.qname  %>
     </h4>
     <div class="card-subtitle">
-      <%= @question.content %>
+      <%= question.content %>
     </div>
     <hr/>
     <div class="card-text">
-      <%= form_with model: @response, :method => :post, :url => course_question_poll_poll_responses_path(@course, @question, @poll), :local => true do %>
+      <%= form_with model: poll_response, :method => :post, :url => course_question_poll_poll_responses_path(course, question, poll), :local => true do %>
         <div class="form-group">
-          <%= question_input(@question, @response)  %>
-          <%= submit_tag @question.prompt %>
+          <%= question_input(question, poll_response)  %>
+          <%= submit_tag question.prompt %>
         </div>
       <% end %>
     </div>

@@ -1,0 +1,9 @@
+<%= turbo_frame_tag 'activequestion' do %>
+  <div id="question">
+    <% if activepoll %>
+      <%= render :partial => "courses/active", locals: {course: course, question: question, poll: poll, poll_response: poll_response} %>
+    <% else %>
+      <%= render :partial => "courses/noactive" %>
+    <% end %>
+  </div>
+<% end %>

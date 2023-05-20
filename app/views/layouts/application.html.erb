@@ -15,30 +15,10 @@
   </head>
   <body>
     <div class="container-fluid px-md-5">
+
       <div class="row" id="jsflash"></div>
-      <% if flash.keys.length %>
-        <% if flash[:notice] %>
-          <div class="row alert alert-info" id="railsflash">
-            <div class="col-med">
-              <%= flash[:notice]  %>
-            </div>
-          </div>
-        <% end %>
-        <% if flash[:alert] %>
-          <div class="row alert alert-danger" id="railsflash">
-            <div class="col-med">
-              <%= flash[:alert]  %>
-            </div>
-          </div>
-        <% end %>
-        <% if flash[:warning] %>
-          <div class="row alert alert-warning" id="railsflash">
-            <div class="col-med">
-              <%= flash[:warning]  %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
+      <%= render partial: 'common/flash' %>
+
       <% if user_signed_in? %>
         <div id="auth">
           <div class="row p-3 bg-primary text-white">

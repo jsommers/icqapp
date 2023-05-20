@@ -1,0 +1,25 @@
+<%= turbo_frame_tag 'flash' do %>
+  <% if flash.keys.length %>
+    <% if flash[:notice] %>
+      <div class="row alert alert-info" id="railsflash">
+        <div class="col-med">
+          <%= flash[:notice]  %>
+        </div>
+      </div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="row alert alert-danger" id="railsflash">
+        <div class="col-med">
+          <%= flash[:alert]  %>
+        </div>
+      </div>
+    <% end %>
+    <% if flash[:warning] %>
+      <div class="row alert alert-warning" id="railsflash">
+        <div class="col-med">
+          <%= flash[:warning]  %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

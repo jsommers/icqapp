@@ -2,15 +2,7 @@
   <%= link_to "Review past questions", course_questions_path(@course), :class => "btn btn-outline-primary" %>
   <%= render :partial => 'attendance' %>
 
-  <%= turbo_frame_tag 'activequestion' do %>
-    <div id="question">
-      <% if @activepoll %>
-        <%= render :partial => "active" %>
-      <% else %>
-        <%= render :partial => "noactive" %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render :partial => 'activequestion', locals: {course: @course, question: @question, poll: @poll, poll_response: @response, activepoll: @activepoll} %>
 
   <br/>
 

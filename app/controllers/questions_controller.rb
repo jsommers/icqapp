@@ -18,9 +18,9 @@ class QuestionsController < ApplicationController
     @course = Course.find(params[:course_id])    
     @question = @course.questions.create(create_update_params)
     if @question.persisted?
+      flash[:notice] = "#{@question.qname} created"
       respond_to do |format|
         format.html do
-          flash[:notice] = "#{@question.qname} created"
           redirect_to course_questions_path(@course) and return
         end
         format.turbo_stream 
