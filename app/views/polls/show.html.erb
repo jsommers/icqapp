@@ -68,7 +68,7 @@
       </span>
       <span>Responses:</span>
 
-      <%= turbo_stream_from 'poll_responses' %>
+      <%= turbo_stream_from 'poll_responses_channel' %>
 
       <%= render partial: 'poll_response_count', locals: { poll_response_count: @poll_response_count } %>
 

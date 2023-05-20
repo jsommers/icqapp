@@ -1,8 +1,10 @@
 <div id="main">
   <%= link_to "Review past questions", course_questions_path(@course), :class => "btn btn-outline-primary" %>
-  <%= render :partial => 'attendance' %>
 
-  <%= turbo_stream_from 'activequestion' %>
+  <%= turbo_stream_from 'attendance_channel' %>
+  <%= render :partial => 'attendance', locals: {course: @course, checked_in: @checked_in} %>
+
+  <%= turbo_stream_from 'active_question_channel' %>
   <%= render :partial => 'activequestion', locals: {course: @course, question: @question, poll: @poll, poll_response: @response, activepoll: @activepoll} %>
 
   <br/>

@@ -17,10 +17,10 @@ class Poll < ApplicationRecord
   protected
   def activate_question
     pr = self.new_response.save
-    broadcast_replace_later_to 'active_question', partial: 'courses/activequestion', target: 'activequestion', locals: {course: self.question.course, question: self.question, poll: self, poll_response: pr, activepoll: true}
+    broadcast_replace_later_to 'active_question_channel', partial: 'courses/activequestion', target: 'activequestion', locals: {course: self.question.course, question: self.question, poll: self, poll_response: pr, activepoll: true}
   end
 
   def deactivate_question
-    broadcast_replace_later_to 'active_question', partial: 'courses/activequestion', target: 'activequestion', locals: {course: self.question.course, question: self.question, poll: self, activepoll: false}
+    broadcast_replace_later_to 'active_question_channel', partial: 'courses/activequestion', target: 'activequestion', locals: {course: self.question.course, question: self.question, poll: self, activepoll: false}
   end
 end

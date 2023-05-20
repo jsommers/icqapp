@@ -1,10 +1,11 @@
-<% if @course.attendance_today %>
-  <% if @checked_in %>
-    <div class="btn btn-outline-success disabled">You're checked in for today</div>
+<%= turbo_frame_tag 'attendance_checkin' do %>
+  <% if course.attendance_active? %>
+    <% if checked_in %>
+      <div class="btn btn-outline-success disabled">You're checked in for today</div>
+    <% else %>
+      <%= button_to "Attendance check-in", attendance_check_in_path(course), :class => "btn btn-success" %>
+    <% end %>
   <% else %>
-    <%= button_to "Attendance check-in", attendance_check_in_path(@course), :class => "btn btn-success" %>
-  <% end %>
-<% else %>
     <div class="btn btn-outline-success disabled">Attendance check-in is not open</div>
+  <% end %>
 <% end %>
-
