@@ -57,7 +57,7 @@ RSpec.describe "CreateAndActivates", type: :request do
       c.instructors << s
       sign_in s
       get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => "one\ntwo\nthree", 'a' => 'two'}
-      expect(response).to have_http_status(:redirect)
+     expect(response).to have_http_status(:redirect)
       expect(c.active_poll).not_to eq nil
     end
 
@@ -81,12 +81,12 @@ RSpec.describe "CreateAndActivates", type: :request do
       expect(mc).to receive(:answer=)
       expect(mc).to receive(:course=)
       expect(mc).to receive(:qname=)
-      # expect(mc).to receive(:content=).at_least(:once)
-      xbody = double('xbody')
-      expect(mc).to receive(:content) { xbody }
-      expect(xbody).to receive(:body=).at_least(:once)
+       expect(mc).to receive(:content=).at_least(:once)
+      #xbody = double('xbody')
+      #expect(mc).to receive(:content) { xbody }
+      #expect(xbody).to receive(:body=).at_least(:once)
       expect(mc).to receive(:save) { false }
-      get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => ['one', 'two', 'three'], 'a' => 'two'}
+      get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => "one\ntwo\nthree", 'a' => 'two'}
       expect(response).to have_http_status(:redirect)
       expect(c.active_poll).to be nil
     end
@@ -101,10 +101,10 @@ RSpec.describe "CreateAndActivates", type: :request do
       expect(mc).to receive(:answer=)
       expect(mc).to receive(:course=)
       expect(mc).to receive(:qname=)
-      #expect(mc).to receive(:content=).at_least(:once)
-      xbody = double('xbody')
-      expect(xbody).to receive(:body=).at_least(:once)
-      expect(mc).to receive(:content) { xbody }
+      expect(mc).to receive(:content=).at_least(:once)
+      #xbody = double('xbody')
+      #expect(xbody).to receive(:body=).at_least(:once)
+      #expect(mc).to receive(:content) { xbody }
       expect(mc).to receive(:save) { true }
       x = double('polls')
       expect(x).to receive(:maximum) { 0 }
@@ -115,7 +115,7 @@ RSpec.describe "CreateAndActivates", type: :request do
       expect(p).to receive(:save) { false }
       expect(mc).to receive(:new_poll) { p }
 
-      get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => ['one', 'two', 'three'], 'a' => 'two'}
+      get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => "one\ntwo\nthree", 'a' => 'two'}
       expect(response).to have_http_status(:redirect)
       expect(c.active_poll).to be nil
     end

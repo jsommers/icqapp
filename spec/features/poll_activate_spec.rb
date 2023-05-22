@@ -94,7 +94,7 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       choose "response_two"
-      click_on "Select one option"
+      click_on "Submit response"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("two")
     end
@@ -113,12 +113,12 @@ RSpec.feature "PollActivates", type: :feature do
       visit course_path(c)
       expect(page.text).to match(/Q1/)
       choose "response_two"
-      click_on "Select one option"
+      click_on "Submit response"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("two")
 
       choose "response_four"
-      click_on "Select one option"
+      click_on "Submit response"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("four")
     end

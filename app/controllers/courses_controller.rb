@@ -113,10 +113,11 @@ class CoursesController < ApplicationController
    @question.qname = question
    if t == :m
      if opts
-       @question.content.body = opts
+       optstr = opts.lines.join('<br>')
+       @question.content = %Q{<div class-"trix-content">#{optstr}</div>}
      else
        alpha = ('A'..'J').to_a
-       @question.content = alpha[0...numopts].join('\n')
+       @question.content.body = '<div class="trix-content">' + alpha[0...numopts].join('<br>') + '</div>'
      end
    end
 

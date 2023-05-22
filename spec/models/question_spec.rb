@@ -11,7 +11,7 @@ RSpec.describe Question, type: :model do
     it "should prompt appropriately for multichoice questions" do
       c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")
       q = MultiChoiceQuestion.create(:qname => "a question", :content => "one\ntwo\nthree\n", :course => c)
-      expect(q.prompt).to eq("Select one option")
+      expect(q.prompt).to eq("Submit response")
     end
 
     it "should prompt appropriately for free response questions" do
