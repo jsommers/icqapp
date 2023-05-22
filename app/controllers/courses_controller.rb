@@ -111,10 +111,9 @@ class CoursesController < ApplicationController
    @question = qt.send(:new)
    @question.answer = answer
    @question.qname = question
-   @question.content = opts
    if t == :m
      if opts
-       @question.content = opts
+       @question.content.body = opts.gsub(/\n/, '<br>')
      else
        alpha = ('A'..'J').to_a
        @question.content = alpha[0...numopts].join('\n')

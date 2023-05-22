@@ -13,7 +13,7 @@ class Question < ApplicationRecord
 
 protected
   def content_length
-    if content.to_plain_text.length < 3
+    if type == 'multi_choice_question' && content.to_plain_text.length < 5
       errors.add(:content, "missing sufficient length")
     end
   end
