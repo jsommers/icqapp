@@ -113,7 +113,7 @@ class CoursesController < ApplicationController
    @question.qname = question
    if t == :m
      if opts
-       @question.content.body = opts.gsub(/\n/, '<br>')
+       @question.content.body = opts
      else
        alpha = ('A'..'J').to_a
        @question.content = alpha[0...numopts].join('\n')

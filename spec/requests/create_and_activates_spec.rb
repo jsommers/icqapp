@@ -81,7 +81,10 @@ RSpec.describe "CreateAndActivates", type: :request do
       expect(mc).to receive(:answer=)
       expect(mc).to receive(:course=)
       expect(mc).to receive(:qname=)
-      expect(mc).to receive(:content=).at_least(:once)
+      # expect(mc).to receive(:content=).at_least(:once)
+      xbody = double('xbody')
+      expect(mc).to receive(:content) { xbody }
+      expect(xbody).to receive(:body=).at_least(:once)
       expect(mc).to receive(:save) { false }
       get '/x', :params => { 'c' => 'TEST', 't' => 'm', 'q' => 'pick an option', 'o' => ['one', 'two', 'three'], 'a' => 'two'}
       expect(response).to have_http_status(:redirect)
@@ -98,7 +101,10 @@ RSpec.describe "CreateAndActivates", type: :request do
       expect(mc).to receive(:answer=)
       expect(mc).to receive(:course=)
       expect(mc).to receive(:qname=)
-      expect(mc).to receive(:content=).at_least(:once)
+      #expect(mc).to receive(:content=).at_least(:once)
+      xbody = double('xbody')
+      expect(xbody).to receive(:body=).at_least(:once)
+      expect(mc).to receive(:content) { xbody }
       expect(mc).to receive(:save) { true }
       x = double('polls')
       expect(x).to receive(:maximum) { 0 }
