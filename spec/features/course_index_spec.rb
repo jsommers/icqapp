@@ -23,9 +23,12 @@ RSpec.feature "CourseIndices", type: :feature do
       sign_in s
       c1 = Course.create!(:name => "One", :daytime => "TR 8:30-9:55")
       c2 = Course.create!(:name => "Two", :daytime => "MWF 10:20-11:10")
-      c2.students << s
 
       visit course_path(c1)
+      expect(page.current_path).to eq(courses_path)
+      expect(page.text).to match(/not enrolled/)
+
+      visit course_path(c2)
       expect(page.current_path).to eq(courses_path)
       expect(page.text).to match(/not enrolled/)
     end
