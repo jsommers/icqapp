@@ -4,7 +4,9 @@ class MultiChoicePoll < Poll
   end
 
   def options
-    self.question.content.to_plain_text.split
+    opts = []
+    self.question.content.to_plain_text.each_line {|l| opts << l.strip }
+    opts
   end
 
   def responses
