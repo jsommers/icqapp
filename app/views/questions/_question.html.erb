@@ -15,7 +15,7 @@
         <%= time_tag question.created_at.localtime, :format => "%Y/%m/%d" %>
     </td>
     <td>
-        <%= link_to "Delete", course_question_path(@course, question), method: :delete, data: { turbo_method: "delete" }, class: "btn btn-danger", id: "destroy_#{question.qname}" %>
+        <%= button_to "Delete", course_question_path(@course, question), method: :delete, data: { turbo_method: "delete" }, class: "btn btn-danger", id: "destroy_#{question.qname}" %>
     </td>
     <td>
         <%= button_to "Activate", course_question_polls_path(@course, question), id: "create_#{question.qname}", class: "btn btn-success" %>
