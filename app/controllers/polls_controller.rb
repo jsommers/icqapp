@@ -16,8 +16,7 @@ class PollsController < ApplicationController
       @lucky = ColdCall.random_student(@course)
       flash[:notice] = "Random student: #{@lucky.email}"
     end
-    @qoptionspacked = @poll.responses.keys.join('!!!!!')
-    @presponsespacked = @poll.responses.values.join('!!!!!')
+    @responses_json = @poll.responses.to_json
   end
 
   def notify

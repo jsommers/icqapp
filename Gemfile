@@ -71,7 +71,7 @@ end
 group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers', '~> 4.0', require: true
+  gem 'webdrivers', '~> 5.0', require: true
 end
 
 group :development do
