@@ -44,7 +44,7 @@ RSpec.feature "Attendance", type: :feature do
       c.students << s
       sign_in s
       visit question_report_path(c)
-      expect(page.current_path).to eq(course_path(c))
+      expect(page.current_path).to eq(courses_path)
     end
   end
 

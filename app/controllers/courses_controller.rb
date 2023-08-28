@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
   before_action :go_to_current_course, :only => [:index]
   before_action :verify_enrollment, :only => [:show]
   before_action :instructor_index, :only => [:show]
+  before_action :redirect_if_student, :only => [:open_attendance, :close_attendance, :create_and_activate, :attendance_report, :question_report]
 
   def index
     @courses = current_user.courses
@@ -59,7 +60,6 @@ class CoursesController < ApplicationController
 
   def question_report
     @course = Course.find(params[:id])
-    redirect_to course_path(@course) if current_user.student? 
 
     pollids = @course.questions.where.not(:type => "AttendanceQuestion").joins(:polls).select("polls.id")
 

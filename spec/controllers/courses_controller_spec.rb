@@ -46,6 +46,17 @@ RSpec.describe CoursesController, type: :controller do
     end
   end
 
+  describe "correct access control on routes" do
+    it "should not allow a student to access create_and_activate" do
+      s = FactoryBot.create(:student)
+      c = FactoryBot.create(:course)
+      c.students << s
+      sign_in s
+      get :create_and_activate, :params => {:id => c.id}
+      expect(response).to have_http_status(:redirect)
+    end
+  end
+
   describe "correct redirect on auth" do
     it "should redirect to course going on now if available for std (1)" do
       s = FactoryBot.create(:student)
