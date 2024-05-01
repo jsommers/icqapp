@@ -4,7 +4,10 @@
       <%= link_to "Courses", courses_path %>
     </li>
     <li class="breadcrumb-item active">
-      <%= @course.name %>
+      <%= link_to "#{@course.name}", course_path(@course) %>
+    </li>
+    <li class="breadcrumb-item active">
+      Question report
     </li>
   </ol>
 
