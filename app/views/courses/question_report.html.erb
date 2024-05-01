@@ -1,17 +1,34 @@
-<% # %p= @response_matrix %>
+<div id="main">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item active">
+      <%= @course.name %>
+    </li>
+  </ol>
+
 <h3>
   <%= "Question report for #{@course.name}" %>
 </h3>
 <table class="table-striped table-bordered">
   <tr>
-    <td class="small">Date</td>
-    <td class="small">qId</td>
-    <td class="small">pId</td>
-    <td class="small">qType</td>
+    <th>
+      <p class="vertical-orientation">Date</p>
+    </th>
+    <th>
+      <p class="vertical-orientation">Question</p>
+    </th>
+    <th>
+      <p class="vertical-orientation">Poll</p>
+    </th>
+    <th>
+      <p class="vertical-orientation">Type</p>
+    </th>
     <% @course.students.each do |s| %>
       <th>
-        <p class="vertical_orientation">
-          <%= s.email %>
+        <p class="vertical-orientation">
+          <%= strip_email_domain(s.email) %>
         </p>
       </th>
     <% end %>
@@ -38,3 +55,4 @@
     </tr>
   <% end %>
 </table>
+</div>

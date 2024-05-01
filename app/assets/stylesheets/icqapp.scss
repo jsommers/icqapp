@@ -5,3 +5,8 @@
 .hidden {
     display: none; // block or none
 }
+
+.vertical-orientation {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}

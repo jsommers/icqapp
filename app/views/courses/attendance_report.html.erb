@@ -1,17 +1,31 @@
+<div id="main">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to "Courses", courses_path %>
+    </li>
+    <li class="breadcrumb-item active">
+      <%= @course.name %>
+    </li>
+  </ol>
+
 <h3>
   <%= "Attendance report for #{@course.name}" %>
 </h3>
 <table class="table-striped table-bordered">
   <tr>
-    <td class="small">Date</td>
+    <th>
+      <p class="vertical-orientation">Date</p>
+    </th>
     <% @course.students.each do |s| %>
       <th>
-        <p class="vertical_orientation">
-          <%= s.email %>
+        <p class="vertical-orientation">
+          <%= strip_email_domain(s.email) %>
         </p>
       </th>
     <% end %>
-    <td class="small">Total</td>
+    <th>
+      <p class="vertical-orientation">Total</p>
+    </th>
   </tr>
   <% @attendance_matrix.each do |row| %>
     <tr>
@@ -26,3 +40,4 @@
     </tr>
   <% end %>
 </table>
+</div>
