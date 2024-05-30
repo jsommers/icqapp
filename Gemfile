@@ -51,7 +51,6 @@ gem 'octicons_helper'
 gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
-#gem "oauth2", "~> 1.4"
 gem "oauth2"
 
 group :development, :test do
