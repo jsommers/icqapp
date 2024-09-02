@@ -27,6 +27,11 @@ class Course < ApplicationRecord
     self.attendance.where('created_at BETWEEN ? AND ?', Time.new(now.year, now.month, now.day), Time.new(now.year, now.month, now.day, 23, 59, 59)).first
   end
 
+  def attendance_for(m, d)
+    now = Time.now
+    self.attendance.where('created_at BETWEEN ? AND ?', Time.new(now.year, m, d), Time.new(now.year, m, d, 23, 59, 59)).first
+  end
+
   def open_attendance
     att = self.attendance_today
     if att.nil? 
