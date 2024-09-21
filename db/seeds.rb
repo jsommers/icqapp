@@ -11,9 +11,12 @@ User.destroy_all
 Course.destroy_all
 
 me = User.create!(:email => 'jsommers@colgate.edu', :admin => true)
+me2 = User.create!(:email => 'sommersmeister@gmail.com')
 
 c415 = Course.create!(:name => 'COSC415F24', :daytime => 'MWF 9:20-10:10')
 c415.instructors << me
+c415.students << me2
 
 c255 = Course.create!(:name => 'COSC255F24', :daytime => 'MWF 10:20-11:10')
 c255.instructors << me
+c255.students << me2

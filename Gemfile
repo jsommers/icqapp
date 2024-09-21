@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.3.1"
+ruby "3.3.5"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3"
@@ -89,3 +89,9 @@ end
 group :production do
   gem 'pg'
 end
+
+gem "logger", "~> 1.6"
+
+gem "fiddle", "~> 1.1"
+
+gem "ostruct", "~> 0.6.0"
