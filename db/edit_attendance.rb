@@ -22,6 +22,12 @@ if student.nil? || date == ""
   exit
 end
 
+remove = false
+if student =~ /-$/ 
+  student = student.gsub /-$/, ''
+  remove = true
+end
+
 student = User.where(email: "#{student}@colgate.edu").first
 
 course = Course.find_by(:name => course)
@@ -29,6 +35,10 @@ puts "Course: #{course.name}"
 attendance = course.attendance_for(m, d)
 puts "Attendance found: #{attendance.created_at}"
 
-attendance.users << student
-
-puts "Student #{student.email} added to attendance for #{course.name} on #{date}"
+if !remove
+  attendance.users << student
+  puts "Student #{student.email} added to attendance for #{course.name} on #{date}"
+else
+  attendance.users.delete(student)
+  puts "Removed #{student.email} from attendance for #{course.name} on #{date}"
+end
