@@ -42,5 +42,18 @@
       <% end %>
     </tr>
   <% end %>
+  <tr>
+    <th>
+    </th>
+    <% @course.students.each do |s| %>
+      <th>
+        <p class="vertical-orientation">
+          <%= strip_email_domain(s.email) %>
+        </p>
+      </th>
+    <% end %>
+    <th>
+    </th>
+  </tr>
 </table>
 </div>
