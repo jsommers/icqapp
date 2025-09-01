@@ -20,9 +20,10 @@ puts course
 all_emails = []
 
 CSV.foreach(seedfile) do |row|
+  # puts "row: #{row}"
   next if row[0] =~ /Student/
   if row.join =~ /\*\*registered\*\*/i
-    email = row[-2]
+    email = row[4]
     all_emails << email
     # puts "#{email}"
   end
