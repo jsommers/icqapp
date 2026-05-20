@@ -1,63 +1,39 @@
-<div id="main">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <%= link_to "Courses", courses_path %>
-    </li>
-    <li class="breadcrumb-item active">
-      <%= @course.name %>
-    </li>
-  </ol>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <%= @course.name %>
-      </h5>
-      <h6 class="card-subtitle">
-        <%= @course.daytime %>
-      </h6>
-      <p class="card-text">
-        <%= "Students enrolled: #{@course.students.count}" %>
-      </p>
-      <p></p>
-      <span>
-        <%= octicon "calendar", :height => 20 %>
-      </span>
-      <span>
-        <% if !@course.attendance_taken? %>
-          <%= button_to 'Take attendance', open_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
-        <% else %>
-          <% if @course.attendance_active? %>
-          <%= button_to 'Close attendance', close_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
-          <% else %>
-          Attendance already taken today
-          <%= button_to 'Reopen attendance', open_attendance_path(@course), :class => 'btn btn-sm btn-success' %>
-          <% end %>
-        <% end %>
-      </span>
-    </div>
+<div class="mb-5 d-flex justify-content-between align-items-end">
+  <div>
+    <h1 class="fw-extrabold text-primary mb-1"><%= @course.name %></h1>
+    <p class="text-muted"><%= @course.daytime %> &bull; Students enrolled: <%= @course.students.count %></p>
   </div>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th># Polls</th>
-      <th>Type</th>
-      <th>Question</th>
-      <th>Date</th>
-      <th>Delete</th>
-      <th>New Poll</th>
-    </tr>
-    </thead>
-    <tbody id='question_table'>
-      <%= render partial: 'question', collection: @questions %>
-    </tbody>
-  </table>
-
-  <div id="bottom">
-    <%= turbo_frame_tag 'create_form' do %>
-      <div id="form">
-        <%= link_to "Create a new question", new_course_question_path(@course), :class => "btn btn-primary" %>
-      <div>
+  
+  <div class="d-flex gap-2">
+    <% if !@course.attendance_taken? %>
+      <%= button_to open_attendance_path(@course), class: 'btn btn-success d-flex align-items-center shadow-sm' do %>
+        <%= octicon "check", class: "me-2", height: 16 %> Take attendance
+      <% end %>
+    <% else %>
+      <% if @course.attendance_active? %>
+        <%= button_to close_attendance_path(@course), class: 'btn btn-warning d-flex align-items-center shadow-sm' do %>
+          <%= octicon "x-circle", class: "me-2", height: 16 %> Close attendance
+        <% end %>
+      <% else %>
+        <%= button_to open_attendance_path(@course), class: 'btn btn-outline-success d-flex align-items-center' do %>
+          <%= octicon "sync", class: "me-2", height: 16 %> Reopen attendance
+        <% end %>
+      <% end %>
     <% end %>
+  </div>
+</div>
+
+<div class="mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 fw-bold mb-0">Questions</h2>
+    <%= turbo_frame_tag 'create_form', target: "_top" do %>
+      <%= link_to new_course_question_path(@course), class: "btn btn-primary d-flex align-items-center shadow-sm" do %>
+        <%= octicon "plus", class: "me-2", height: 16 %> Create a new question
+      <% end %>
+    <% end %>
+  </div>
+
+  <div id="question_list" class="row g-3">
+    <%= render partial: 'question', collection: @questions %>
   </div>
 </div>

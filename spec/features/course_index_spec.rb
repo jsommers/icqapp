@@ -14,8 +14,8 @@ RSpec.feature "CourseIndices", type: :feature do
 
       visit courses_path
       expect(page.text).to match(/student\d+@colgate.edu/)
-      expect(page.text).to match(/One.+TR 00:00-00:01/)
-      expect(page.text).to match(/Two.+MWF 00:00-00:01/)
+      expect(page.text).to match(/One.*TR 00:00-00:01/m)
+      expect(page.text).to match(/Two.*MWF 00:00-00:01/m)
     end
 
     it "should not allow student to visit course show page for courses not enrolled in" do

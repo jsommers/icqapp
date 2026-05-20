@@ -1,19 +1,30 @@
-<div class="card" id="qcard">
-  <div class="card-body">
-    <h4 class="card-title" id="squestion">
-      <%= question.qname  %>
-    </h4>
-    <div class="card-subtitle">
+<div class="floating-card pulse-live border-accent" id="qcard">
+  <div class="d-flex align-items-center mb-4">
+    <div class="bg-accent p-2 rounded-circle me-3">
+      <%= octicon "broadcast", class: "text-white", height: 20 %>
+    </div>
+    <div>
+      <h3 class="h5 fw-bold mb-0 text-primary">Live Question</h3>
+      <span class="small text-muted">A poll is currently active. Please submit your response below.</span>
+    </div>
+  </div>
+
+  <div class="question-content mb-4 bg-light p-3 rounded">
+    <h4 class="h5 fw-semibold mb-3"><%= question.qname %></h4>
+    <div class="text-secondary">
       <%= question.content %>
     </div>
-    <hr/>
-    <div class="card-text">
-      <%= form_with model: poll_response, :method => :post, :url => course_question_poll_poll_responses_path(course, question, poll), :local => true do %>
-        <div class="form-group">
-          <%= question_input(question, poll_response)  %>
-          <%= submit_tag question.prompt %>
-        </div>
+  </div>
+
+  <div class="poll-form">
+    <%= form_with model: poll_response, method: :post, url: course_question_poll_poll_responses_path(course, question, poll), local: true do |f| %>
+      <div class="mb-4">
+        <%= question_input(question, poll_response) %>
+      </div>
+      <%= f.button class: "btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center" do %>
+        <%= octicon "paper-airplane", class: "me-2", height: 16 %>
+        <%= question.prompt %>
       <% end %>
-    </div>
+    <% end %>
   </div>
 </div>

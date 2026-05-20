@@ -1,25 +1,34 @@
-<tr>
-    <td>
-        <%= link_to question.qname, course_question_polls_path(@course, question), :class => "btn btn-light" %>
-    </td>
-    <td>
-        <%= question.polls.count %>
-    </td>
-    <td>
-        <%= octicon question_icon(question.type), :height => 32, :"aria-label" => question_type(question.type), :class => 'octicon', :alt => question_type(question.type) %>
-    </td>
-    <td>
-        <%= question.content %>
-    </td>
-    <td>
-        <%= time_tag question.created_at.localtime, :format => "%Y/%m/%d" %>
-    </td>
-    <td>
-        <%= button_to "Delete", course_question_path(@course, question), method: :delete, data: { turbo_method: "delete" }, class: "btn btn-danger", id: "destroy_#{question.qname}" %>
-    </td>
-    <td>
-        <%= button_to "Activate", course_question_polls_path(@course, question), id: "create_#{question.qname}", class: "btn btn-success" %>
-    </td>
-</tr>
-
-
+<div class="col-12">
+  <div class="floating-card p-0 overflow-hidden">
+    <div class="d-flex flex-column flex-md-row">
+      <div class="p-3 bg-light d-flex flex-column align-items-center justify-content-center border-end" style="min-width: 100px;">
+        <%= octicon question_icon(question.type), height: 32, class: "text-primary mb-2" %>
+        <span class="small fw-bold text-uppercase text-muted" style="font-size: 0.65rem;"><%= question_type(question.type) %></span>
+      </div>
+      
+      <div class="p-3 flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <%= link_to course_question_polls_path(@course, question), class: "text-decoration-none h5 fw-bold text-primary mb-0" do %>
+            <%= question.qname %>
+          <% end %>
+          <span class="badge rounded-pill bg-light text-muted border small">
+            <%= pluralize(question.polls.count, "Poll") %>
+          </span>
+        </div>
+        <div class="text-secondary small mb-3 text-truncate-2">
+          <%= question.content %>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="text-muted small">
+            <%= octicon "calendar", height: 12, class: "me-1" %>
+            <%= question.created_at.strftime("%b %d, %Y") %>
+          </span>
+          <div class="d-flex gap-2">
+            <%= button_to "Delete", course_question_path(@course, question), method: :delete, class: "btn btn-link btn-sm text-danger p-0 text-decoration-none", id: "destroy_#{question.qname}" %>
+            <%= button_to "Activate", course_question_polls_path(@course, question), class: "btn btn-success btn-sm px-3 fw-bold shadow-sm", id: "create_#{question.qname}" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

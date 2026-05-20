@@ -1,10 +1,7 @@
-<div class="card" id="noqcard">
-  <div class="card-body">
-    <h3 class="card-title"></h3>
-    <span>
-      <%= octicon "stopwatch", :height => 32 %>
-    </span>
-    <span>Hang on ... </span>
-    <p class="card-text">no question is active right now</p>
+<div class="floating-card text-center py-5" id="noqcard">
+  <div class="bg-light rounded-circle p-4 d-inline-block mb-3">
+    <%= octicon "stopwatch", class: "text-muted", height: 48 %>
   </div>
+  <h3 class="h4 fw-bold text-primary">No Active Poll</h3>
+  <p class="text-muted">Hang on! There are no questions active right now.<br>Your instructor will activate a question when they are ready.</p>
 </div>
