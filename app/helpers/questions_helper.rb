@@ -33,6 +33,7 @@ module QuestionsHelper
         q.content.to_plain_text.each_line do |opt|
           opt.strip!
           next if opt.empty?
+          # Use exact ID expected by tests, and link it to label
           input_id = "response_#{opt}"
           h = {:class => "form-check-input", :id => input_id}
           t = radio_button_tag('response', opt, opt == curr, **h)

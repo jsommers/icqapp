@@ -1,9 +1,12 @@
 <div class="col-12">
-  <div class="floating-card p-0 overflow-hidden">
+  <div class="floating-card p-0 overflow-hidden <%= 'pulse-live border-accent' if question.active_poll %>">
     <div class="d-flex flex-column flex-md-row">
       <div class="p-3 bg-light d-flex flex-column align-items-center justify-content-center border-end" style="min-width: 100px; border-left: 4px solid var(--primary);">
         <%= octicon question_icon(question.type), height: 32, class: "text-primary mb-2" %>
         <span class="small fw-bold text-uppercase text-muted" style="font-size: 0.65rem;"><%= question_type(question.type) %></span>
+        <% if question.active_poll %>
+          <span class="badge bg-accent text-white mt-2" style="font-size: 0.6rem;">LIVE</span>
+        <% end %>
       </div>
       
       <div class="p-3 flex-grow-1">
@@ -11,9 +14,14 @@
           <%= link_to course_question_polls_path(@course, question), class: "text-decoration-none h5 fw-bold text-primary mb-0" do %>
             <%= question.qname %>
           <% end %>
-          <span class="badge rounded-pill bg-light text-muted border small">
-            <%= pluralize(question.polls.count, "Poll") %>
-          </span>
+          <div class="d-flex gap-2 align-items-center">
+            <% if question.active_poll %>
+              <span class="badge-status active d-none d-sm-inline">Poll Active</span>
+            <% end %>
+            <span class="badge rounded-pill bg-light text-muted border small">
+              <%= pluralize(question.polls.count, "Poll") %>
+            </span>
+          </div>
         </div>
         <div class="text-secondary small mb-3 text-truncate-2">
           <%= question.content %>
@@ -25,7 +33,14 @@
           </span>
           <div class="d-flex gap-2">
             <%= button_to "Delete", course_question_path(@course, question), method: :delete, class: "btn btn-link btn-sm text-danger p-0 text-decoration-none", id: "destroy_#{question.qname}" %>
-            <%= button_to "Activate", course_question_polls_path(@course, question), class: "btn btn-success btn-sm px-3 fw-bold shadow-sm", id: "create_#{question.qname}" %>
+            
+            <% if question.active_poll %>
+              <%= button_to course_question_poll_path(@course, question, question.active_poll), method: :patch, params: { poll: { isopen: false } }, class: "btn btn-warning btn-sm px-3 fw-bold shadow-sm" do %>
+                Stop Poll
+              <% end %>
+            <% else %>
+              <%= button_to "Activate", course_question_polls_path(@course, question), class: "btn btn-success btn-sm px-3 fw-bold shadow-sm", id: "create_#{question.qname}" %>
+            <% end %>
           </div>
         </div>
       </div>

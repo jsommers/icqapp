@@ -11,9 +11,14 @@
           <h3 class="h4 fw-bold mb-0">
             <%= link_to c.name, course_path(c), class: "text-primary text-decoration-none" %>
           </h3>
-          <% if c.now? %>
-            <span class="badge-status active">Live Now</span>
-          <% end %>
+          <div class="d-flex gap-2">
+            <% if c.active_poll %>
+              <span class="badge-status active shadow-sm border border-white">Poll Active</span>
+            <% end %>
+            <% if c.now? %>
+              <span class="badge-status active shadow-sm border border-white" style="background-color: var(--primary-dark);">Live Now</span>
+            <% end %>
+          </div>
         </div>
 
         <div class="mb-4">
