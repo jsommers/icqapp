@@ -1,13 +1,21 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["submitButton", "status"]
+  static targets = ["submitButton", "status", "timestamp"]
   static values = {
     originalText: String
   }
 
   connect() {
     this.originalTextValue = this.submitButtonTarget.innerHTML
+    this.formatTimestamp()
+  }
+
+  formatTimestamp() {
+    if (this.hasTimestampTarget) {
+      const date = new Date(this.timestampTarget.dataset.utc)
+      this.timestampTarget.innerText = `Last updated: ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}`
+    }
   }
 
   submitStart() {
