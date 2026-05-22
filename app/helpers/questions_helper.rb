@@ -32,16 +32,18 @@ module QuestionsHelper
         s = ""
         q.content.to_plain_text.each_line do |opt|
           opt.strip!
-          h = {:class => "form-check-input"}
+          next if opt.empty?
+          input_id = "response_#{opt}"
+          h = {:class => "form-check-input", :id => input_id}
           t = radio_button_tag('response', opt, opt == curr, **h)
-          t += label_tag(opt, opt)
-          s = s + "<div class='form-check'>" + t + "</div>"
+          t += label_tag(input_id, opt, class: "form-check-label ms-2")
+          s = s + "<div class='form-check d-flex align-items-center mb-2'>" + t + "</div>"
         end
         s.html_safe
       when "NumericQuestion"
-        number_field_tag :response, curr, :step => 0.01, :class => "form-control"
+        number_field_tag :response, curr, :step => 0.01, :class => "form-control shadow-sm", :placeholder => "Enter a number..."
       when "FreeResponseQuestion"
-        text_field_tag :response, curr, :class => "form-control"
+        text_area_tag :response, curr, :class => "form-control shadow-sm", :rows => 3, :placeholder => "Type your response here..."
     end
   end
 end

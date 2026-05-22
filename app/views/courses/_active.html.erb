@@ -17,11 +17,11 @@
   </div>
 
   <div class="poll-form">
-    <%= form_with model: poll_response, method: :post, url: course_question_poll_poll_responses_path(course, question, poll), local: true do |f| %>
+    <%= form_with model: poll_response, method: :post, url: course_question_poll_poll_responses_path(course, question, poll) do |f| %>
       <div class="mb-4">
         <%= question_input(question, poll_response) %>
       </div>
-      <%= f.button class: "btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center" do %>
+      <%= f.button type: "submit", class: "btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center shadow-sm" do %>
         <%= octicon "paper-airplane", class: "me-2", height: 16 %>
         <%= question.prompt %>
       <% end %>
