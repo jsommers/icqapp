@@ -118,7 +118,7 @@ RSpec.feature "PollActivates", type: :feature do
       expect(PollResponse.find(1).response).to eq("two")
 
       choose "response_four"
-      click_on "Submit response"
+      click_on "Update Response"
       expect(page.current_path).to eq(course_path(c))
       expect(PollResponse.find(1).response).to eq("four")
     end

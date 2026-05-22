@@ -1,12 +1,25 @@
-<div class="floating-card pulse-live" id="qcard" style="border-top: 4px solid var(--accent);">
-  <div class="d-flex align-items-center mb-4">
-    <div class="bg-accent p-2 rounded-circle me-3 shadow-sm">
-      <%= octicon "broadcast", class: "text-white", height: 20 %>
+<div class="floating-card pulse-live" id="qcard" style="border-top: 4px solid var(--accent);" data-controller="poll-response">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center">
+      <div class="bg-accent p-2 rounded-circle me-3 shadow-sm">
+        <%= octicon "broadcast", class: "text-white", height: 20 %>
+      </div>
+      <div>
+        <h3 class="h5 fw-bold mb-0 text-primary">Live Question</h3>
+        <span class="small text-muted">A poll is currently active.</span>
+      </div>
     </div>
-    <div>
-      <h3 class="h5 fw-bold mb-0 text-primary">Live Question</h3>
-      <span class="small text-muted">A poll is currently active. Please submit your response below.</span>
-    </div>
+    
+    <% if poll_response.persisted? %>
+      <div class="text-end">
+        <span class="badge bg-success-subtle text-success border border-success-subtle mb-1 d-block">
+          <%= octicon "check", class: "me-1", height: 12 %> Response Saved
+        </span>
+        <span class="text-muted" style="font-size: 0.65rem;">
+          Last updated: <%= poll_response.updated_at.strftime("%I:%M:%S %p") %>
+        </span>
+      </div>
+    <% end %>
   </div>
 
   <div class="question-content mb-4 bg-light p-3 rounded">
@@ -17,13 +30,15 @@
   </div>
 
   <div class="poll-form">
-    <%= form_with model: poll_response, method: :post, url: course_question_poll_poll_responses_path(course, question, poll) do |f| %>
+    <%= form_with model: poll_response, method: :post, url: course_question_poll_poll_responses_path(course, question, poll), 
+                  data: { action: "turbo:submit-start->poll-response#submitStart turbo:submit-end->poll-response#submitEnd" } do |f| %>
       <div class="mb-4">
         <%= question_input(question, poll_response) %>
       </div>
-      <%= f.button type: "submit", class: "btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center shadow-sm" do %>
+      <%= f.button type: "submit", class: "btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center shadow-sm", 
+                   data: { poll_response_target: "submitButton" } do %>
         <%= octicon "paper-airplane", class: "me-2", height: 16 %>
-        <%= question.prompt %>
+        <%= poll_response.persisted? ? "Update Response" : question.prompt %>
       <% end %>
     <% end %>
   </div>
