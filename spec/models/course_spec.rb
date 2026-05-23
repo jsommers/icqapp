@@ -66,6 +66,22 @@ RSpec.describe Course, type: :model do
   #   end
   # end
 
+  describe "attendance_for" do
+    it "should return nil when no attendance record exists for a given date" do
+      c = Course.create(name: "course", daytime: "TR 9:55-10:00")
+      expect(c.attendance_for(5, 6)).to be_nil
+    end
+
+    it "should return the attendance record for a given date when one exists" do
+      c = Course.create(name: "course", daytime: "TR 9:55-10:00")
+      travel_to Time.zone.local(2024, 5, 6, 10, 0, 0) do
+        c.open_attendance
+      end
+      result = c.attendance_for(5, 6, year: 2024)
+      expect(result).to be_an_instance_of(Attendance)
+    end
+  end
+
   describe "attendance" do
     it "should correctly note if attendance is taken, if it hasn't been" do
       c = Course.create(:name => "course", :daytime => "TR 9:55-10:00")

@@ -55,6 +55,15 @@ RSpec.describe CoursesController, type: :controller do
       get :create_and_activate, :params => {:id => c.id}
       expect(response).to have_http_status(:redirect)
     end
+
+    it "should not allow an admin who is not an instructor of the course to access create_and_activate" do
+      a = FactoryBot.create(:admin)
+      c = FactoryBot.create(:course, name: "TESTCOURSE")
+      sign_in a
+      get :create_and_activate, params: { c: "TESTCOURSE", t: "n", q: "a question", o: "text" }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(courses_path)
+    end
   end
 
   describe "correct redirect on auth" do
