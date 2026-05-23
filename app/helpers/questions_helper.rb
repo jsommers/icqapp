@@ -4,21 +4,21 @@ module QuestionsHelper
     if rr.length == 0
       "No responses"
     else
-      out = rr.collect {|rec| rec.response}.join(',')
+      out = rr.collect { |rec| rec.response }.join(',')
       "#{rr.length} response: #{out}"
     end
   end
 
   def question_type(t)
-    t =~ /^(\w+)Question$/ 
-    $1.capitalize
+    m = t.match(/^(\w+)Question$/)
+    m ? m[1].capitalize : t
   end
 
   def question_icon(t)
-    t =~ /^(\w+)Question$/ 
-    t = $1.downcase.to_sym
-    icons = {'multichoice': 'list-ordered', 'numeric': 'graph', 'freeresponse': 'quote'}
-    icons[t]
+    m = t.match(/^(\w+)Question$/)
+    return nil unless m
+    icons = { multichoice: 'list-ordered', numeric: 'graph', freeresponse: 'quote' }
+    icons[m[1].downcase.to_sym]
   end
 
   def question_types
@@ -28,23 +28,22 @@ module QuestionsHelper
   def question_input(q, currresponse)
     curr = currresponse ? currresponse.response : ""
     case q.type
-      when "MultiChoiceQuestion"
-        s = ""
-        q.content.to_plain_text.each_line do |opt|
-          opt.strip!
-          next if opt.empty?
-          # Use exact ID expected by tests, and link it to label
-          input_id = "response_#{opt}"
-          h = {:class => "form-check-input", :id => input_id}
-          t = radio_button_tag('response', opt, opt == curr, **h)
-          t += label_tag(input_id, opt, class: "form-check-label ms-2")
-          s = s + "<div class='form-check d-flex align-items-center mb-2'>" + t + "</div>"
-        end
-        s.html_safe
-      when "NumericQuestion"
-        number_field_tag :response, curr, :step => 0.01, :class => "form-control shadow-sm", :placeholder => "Enter a number..."
-      when "FreeResponseQuestion"
-        text_area_tag :response, curr, :class => "form-control shadow-sm", :rows => 3, :placeholder => "Type your response here..."
+    when "MultiChoiceQuestion"
+      s = ""
+      q.content.to_plain_text.each_line do |opt|
+        opt.strip!
+        next if opt.empty?
+        input_id = "response_#{opt}"
+        h = { class: "form-check-input", id: input_id }
+        t = radio_button_tag('response', opt, opt == curr, **h)
+        t += label_tag(input_id, opt, class: "form-check-label ms-2")
+        s = s + "<div class='form-check d-flex align-items-center mb-2'>" + t + "</div>"
+      end
+      s.html_safe
+    when "NumericQuestion"
+      number_field_tag :response, curr, step: 0.01, class: "form-control shadow-sm", placeholder: "Enter a number..."
+    when "FreeResponseQuestion"
+      text_area_tag :response, curr, class: "form-control shadow-sm", rows: 3, placeholder: "Type your response here..."
     end
   end
 end

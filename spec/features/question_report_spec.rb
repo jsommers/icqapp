@@ -8,6 +8,7 @@ RSpec.feature "Attendance", type: :feature do
       admin = FactoryBot.create(:admin)
       sign_in admin
       c = FactoryBot.create(:course)
+      c.instructors << admin
       s = FactoryBot.create(:student)
       c.students << s
       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)
@@ -23,6 +24,7 @@ RSpec.feature "Attendance", type: :feature do
       admin = FactoryBot.create(:admin)
       sign_in admin
       c = FactoryBot.create(:course)
+      c.instructors << admin
       s = FactoryBot.create(:student)
       c.students << s
       q = FactoryBot.build(:numeric_question, :qname => "Q1", :course => c)

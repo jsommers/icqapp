@@ -12,7 +12,8 @@ RSpec.describe QuestionsController, type: :controller do
     it "returns http success for an admin" do
       s = FactoryBot.create(:admin)
       sign_in s
-      c = FactoryBot.create(:course)      
+      c = FactoryBot.create(:course)
+      c.instructors << s
       get :index, :params => {:course_id => c.id}
       expect(response).to have_http_status(:success)
     end
@@ -27,6 +28,7 @@ RSpec.describe QuestionsController, type: :controller do
       s = FactoryBot.create(:student)
       sign_in s
       c = FactoryBot.create(:course)
+      c.students << s
       get :index, :params => {:course_id => c.id}
       expect(response).to have_http_status(:success)
     end
@@ -36,8 +38,9 @@ RSpec.describe QuestionsController, type: :controller do
     it "returns http success for an admin" do
       s = FactoryBot.create(:admin)
       sign_in s
-      c = FactoryBot.create(:course)      
-      get :index, :params => {:course_id => c.id}
+      c = FactoryBot.create(:course)
+      c.instructors << s
+      get :new, :params => {:course_id => c.id}
       expect(response).to have_http_status(:success)
     end
   end
@@ -46,7 +49,8 @@ RSpec.describe QuestionsController, type: :controller do
     it "redirects to new on failure" do
       a = FactoryBot.create(:admin)
       sign_in a
-      c = FactoryBot.create(:course)      
+      c = FactoryBot.create(:course)
+      c.instructors << a
       post :create, :params => {:course_id => c.id, :question => {:qname => "", :content => "", :type => "MultiChoiceQuestion" }}
       expect(response).to redirect_to(new_course_question_path(c))
     end
@@ -54,7 +58,8 @@ RSpec.describe QuestionsController, type: :controller do
     it "redirects to course questions on success" do
       a = FactoryBot.create(:admin)
       sign_in a
-      c = FactoryBot.create(:course)      
+      c = FactoryBot.create(:course)
+      c.instructors << a
       post :create, :params => {:course_id => c.id, :question => {:qname => "question name", :content => "one\ntwo\nthree\n", :type => "MultiChoiceQuestion" }}
       expect(response).to redirect_to(course_questions_path(c))
     end

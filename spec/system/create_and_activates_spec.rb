@@ -34,7 +34,7 @@ RSpec.describe "CreateAndActivates", type: :system do
 
     sign_in @student
     visit(course_path(@c))
-    expect(page.html).to match(%r{<div class="trix-content">\s*<div>1: one\s*<br>2: two\s*<br>3: three\s*<br>4: four\s*</div>\s*</div>})
+    expect(page.html).to match(%r{<div class="trix-content">\s*<div class="trix-content">1: one\s*<br>2: two\s*<br>3: three\s*<br>4: four\s*</div>\s*</div>})
   end
 
   it "should successfully create and active a mc question with no explicit options" do

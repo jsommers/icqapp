@@ -1,14 +1,14 @@
 class Course < ApplicationRecord
-  validates :name, :presence => true
-  validates :daytime, :presence => true, :format => { with: /[MTWRF]{2,3} \d{1,2}:\d{2}-\d{1,2}:\d{2}/ }
+  validates :name, presence: true
+  validates :daytime, presence: true, format: { with: /[MTWRF]{2,3} \d{1,2}:\d{2}-\d{1,2}:\d{2}/ }
 
-  has_and_belongs_to_many :students, -> { where admin: false }, class_name: "User", \
+  has_and_belongs_to_many :students, -> { where(admin: false) }, class_name: "User",
       after_add: :create_coldcall, after_remove: :remove_coldcall
-  has_and_belongs_to_many :instructors, -> { where admin: true}, class_name: "User"
+  has_and_belongs_to_many :instructors, -> { where(admin: true) }, class_name: "User"
 
-  has_many :questions, :dependent => :destroy
-  has_many :attendance, :dependent => :destroy
-  has_many :cold_calls
+  has_many :questions, dependent: :destroy
+  has_many :attendance, dependent: :destroy
+  has_many :cold_calls, dependent: :destroy
 
   def active_question
     questions.joins([:polls]).where("polls.isopen = ?", true).first
@@ -23,19 +23,18 @@ class Course < ApplicationRecord
   end
 
   def attendance_today
-    now = Time.now
-    self.attendance.where('created_at BETWEEN ? AND ?', Time.new(now.year, now.month, now.day), Time.new(now.year, now.month, now.day, 23, 59, 59)).first
+    self.attendance.where(created_at: Time.current.all_day).first
   end
 
-  def attendance_for(m, d)
-    now = Time.now
-    self.attendance.where('created_at BETWEEN ? AND ?', Time.new(now.year, m, d), Time.new(now.year, m, d, 23, 59, 59)).first
+  def attendance_for(m, d, year: Time.current.year)
+    date = Time.zone.local(year, m, d)
+    self.attendance.where(created_at: date.all_day).first
   end
 
   def open_attendance
     att = self.attendance_today
-    if att.nil? 
-      att = Attendance.new(:active => true)
+    if att.nil?
+      att = Attendance.new(active: true)
       self.attendance << att
     end
     att.active = true
@@ -55,24 +54,25 @@ class Course < ApplicationRecord
   end
 
   def now?
-    return false unless self.daytime =~ /([MTWRF]{2,3}) (\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/
+    m = self.daytime.match(/([MTWRF]{2,3}) (\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/)
+    return false unless m
+
     dow = %w{Su M T W R F Sa}
     n = Time.now
     day = dow[n.wday]
-    return false if !$1.include? day
+    return false unless m[1].include?(day)
 
-    xstart = $2.to_i * 60 + $3.to_i
-    xend = $4.to_i * 60 + $5.to_i
-    xnow = n.hour * 60 + n.min
-    return xnow >= xstart && xnow <= xend 
+    xstart = m[2].to_i * 60 + m[3].to_i
+    xend   = m[4].to_i * 60 + m[5].to_i
+    xnow   = n.hour * 60 + n.min
+    xnow >= xstart && xnow <= xend
   end
 
   def create_coldcall(student)
-    ColdCall.create!(course: self, user: student, count: 0)            
+    ColdCall.create!(course: self, user: student, count: 0)
   end
 
   def remove_coldcall(student)
-    cc = ColdCall.where(course: self, user: student).first
-    cc.destroy
+    ColdCall.where(course: self, user: student).first&.destroy
   end
 end

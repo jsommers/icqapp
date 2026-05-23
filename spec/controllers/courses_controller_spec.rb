@@ -9,10 +9,10 @@ RSpec.describe CoursesController, type: :controller do
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to("/users/sign_in")
     end
-    
+
     it "doesn't redirect for signed in users" do
       admin = FactoryBot.create(:admin)
-      sign_in admin 
+      sign_in admin
       c = FactoryBot.create(:course)
       c.instructors << admin
       get :index
@@ -27,7 +27,7 @@ RSpec.describe CoursesController, type: :controller do
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to("/users/sign_in")
     end
-    
+
     it "doesn't redirect for signed in users" do
       s = FactoryBot.create(:student)
       c = FactoryBot.create(:course)
@@ -36,7 +36,7 @@ RSpec.describe CoursesController, type: :controller do
       get :show, :params => {:id => c.id}
       expect(response).to have_http_status(:success)
       expect(assigns(:course)).to eq(c)
-    end 
+    end
 
     it "should redirect to the course index for an invalid course id" do
       sign_in FactoryBot.create(:user)
@@ -64,7 +64,7 @@ RSpec.describe CoursesController, type: :controller do
       c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
       c1.students << s
       c2.students << s
-      # a tuesday
+      # a tuesday at 9:30
       allow(Time).to receive(:now) { Time.new(2019, 5, 14, 9, 30, 0, "-05:00") }
       sign_in s
       get :index
@@ -77,7 +77,7 @@ RSpec.describe CoursesController, type: :controller do
       c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
       c1.students << s
       c2.students << s
-      # a monday
+      # a monday at 9:30
       allow(Time).to receive(:now) { Time.new(2019, 5, 13, 9, 30, 0, "-05:00") }
       sign_in s
       get :index
@@ -86,9 +86,9 @@ RSpec.describe CoursesController, type: :controller do
 
     it "should NOT redirect to course going on now if available for admin (1)" do
       a = FactoryBot.create(:admin)
-      c1 = FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
-      c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
-      # a monday
+      FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
+      FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
+      # a monday at 9:30
       allow(Time).to receive(:now) { Time.new(2019, 5, 13, 9, 30, 0, "-05:00") }
       sign_in a
       get :index
@@ -97,9 +97,9 @@ RSpec.describe CoursesController, type: :controller do
 
     it "should NOT redirect to course going on now if available for admin (2)" do
       a = FactoryBot.create(:admin)
-      c1 = FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
-      c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
-      # a tuesday
+      FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
+      FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
+      # a tuesday at 9:30
       allow(Time).to receive(:now) { Time.new(2019, 5, 14, 9, 30, 0, "-05:00") }
       sign_in a
       get :index
@@ -112,7 +112,7 @@ RSpec.describe CoursesController, type: :controller do
       c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
       s.courses << c1
       s.courses << c2
-      # a monday
+      # a monday at 9:00 (before class)
       allow(Time).to receive(:now) { Time.new(2019, 5, 13, 9, 0, 0, "-05:00") }
       sign_in s
       get :index
@@ -121,9 +121,9 @@ RSpec.describe CoursesController, type: :controller do
 
     it "should redirect to course index if no course is on now for admin" do
       a = FactoryBot.create(:admin)
-      c1 = FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
-      c2 = FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
-      # a monday
+      FactoryBot.create(:course, :daytime => "MWF 09:20-10:10")
+      FactoryBot.create(:course, :daytime => "TR 08:30-9:45")
+      # a monday at 9:00 (before class)
       allow(Time).to receive(:now) { Time.new(2019, 5, 13, 9, 0, 0, "-05:00") }
       sign_in a
       get :index

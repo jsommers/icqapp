@@ -2,11 +2,13 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="poll-result"
 export default class extends Controller {
+  static targets = ["responses"]
+
   toggle() {
-    if (document.querySelector("#responses").style["display"] === "block") {
-        document.querySelector("#responses").style["display"] = "none";
+    if (this.responsesTarget.style["display"] === "block") {
+      this.responsesTarget.style["display"] = "none"
     } else {
-        document.querySelector("#responses").style["display"] = "block";
+      this.responsesTarget.style["display"] = "block"
     }
   }
 }

@@ -14,6 +14,7 @@ RSpec.feature "Coldcalls", type: :feature do
       admin = FactoryBot.create(:admin)
       student = FactoryBot.create(:student)
       @c.students << student
+      @c.instructors << admin
       sign_in admin
       visit course_question_poll_path(@c, q, p)
       expect(page.text).to match(/Q1/)
@@ -25,7 +26,7 @@ RSpec.feature "Coldcalls", type: :feature do
       visit course_cold_calls_path(@c)
       expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
       click_on "Edit"
-      fill_in :count, :with => "13"
+      fill_in "cold_call[count]", :with => "13"
       click_on "Save"
       expect(page.text).to match(/student\d+@colgate.edu\s+13\s*/)
     end
@@ -34,7 +35,7 @@ RSpec.feature "Coldcalls", type: :feature do
       visit course_cold_calls_path(@c)
       expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)
       click_on "Edit"
-      fill_in :count, :with => "-1"
+      fill_in "cold_call[count]", :with => "-1"
       click_on "Save"
       # NB: no change on count w/invalid count
       expect(page.text).to match(/student\d+@colgate.edu\s+1\s*/)

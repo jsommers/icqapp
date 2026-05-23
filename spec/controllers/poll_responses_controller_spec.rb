@@ -55,8 +55,7 @@ RSpec.describe PollResponsesController, type: :controller do
       p = double("poll")
       pr = double("poll_response")
       x = double('stuff')
-      expect(x).to receive(:where) { x }
-      expect(x).to receive(:first) { nil }
+      expect(x).to receive(:find_by) { nil }
       expect(p).to receive(:poll_responses) { x }
       expect(p).to receive(:id) { 1 }
       expect(p).to receive(:new_response) { pr }

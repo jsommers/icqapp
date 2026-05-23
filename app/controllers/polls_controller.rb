@@ -1,20 +1,19 @@
 class PollsController < ApplicationController
+  before_action :verify_course_enrollment
   before_action :redirect_if_student
 
   def index
-    @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @polls = @question.polls
   end
 
   def show
-    @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
     @poll_response_count = @poll.poll_responses.count
-    if params[:coldcall] 
+    if params[:coldcall]
       @lucky = ColdCall.random_student(@course)
-      flash[:notice] = "Random student: #{@lucky.email}"
+      flash[:notice] = "Random student: #{@lucky&.email}"
     end
     @responses_json = @poll.responses.to_json
   end
@@ -22,20 +21,17 @@ class PollsController < ApplicationController
   def notify
     @poll = Poll.find(params[:id])
     @question = @poll.question
-    @course = @question.course
-    PollNotifyMailer.with(user: current_user, poll: @poll).notify_email.deliver_now
-    redirect_to course_question_poll_path(@course, @question, @poll) and return
+    PollNotifyMailer.with(user: current_user, poll: @poll).notify_email.deliver_later
+    redirect_to course_question_poll_path(@course, @question, @poll)
   end
 
   def create
-    @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     Poll.closeall(@course)
     num = @question.polls.maximum(:round).to_i
     @poll = @question.new_poll
     @poll.isopen = true
     @poll.round = num + 1
-    # @poll.update_active_question
     if @poll.save
       flash[:notice] = "Poll started for #{@question.qname}"
       redirect_to course_question_poll_path(@course, @question, @poll)
@@ -46,17 +42,14 @@ class PollsController < ApplicationController
   end
 
   def update
-    @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
-    @poll.update(:isopen => false)
-    # @poll.update_active_question
+    @poll.update(isopen: false)
     flash[:notice] = "Poll stopped for #{@question.qname}"
     redirect_to course_question_poll_path(@course, @question, @poll)
   end
 
   def destroy
-    @course = Course.find(params[:course_id])
     @question = Question.find(params[:question_id])
     @poll = Poll.find(params[:id])
     @poll.destroy

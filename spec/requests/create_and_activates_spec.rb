@@ -16,6 +16,7 @@ RSpec.describe "CreateAndActivates", type: :request do
       s = FactoryBot.create(:admin)
       sign_in s
       c = FactoryBot.create(:course, :name => "TEST")
+      c.instructors << s
       get '/x', :params => { 'c' => 'TEST' }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(course_path(c))
@@ -25,6 +26,7 @@ RSpec.describe "CreateAndActivates", type: :request do
       s = FactoryBot.create(:admin)
       sign_in s
       c = FactoryBot.create(:course, :name => "TEST")
+      c.instructors << s
       get '/x', :params => { 'c' => 'TEST', 't' => 'n'}
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(course_path(c))
