@@ -17,3 +17,4 @@ test:
 production:
   adapter: postgresql
   database: icq
+  port: 5435

@@ -1,6 +1,6 @@
 class Course < ApplicationRecord
-  validates :name, presence: true
-  validates :daytime, presence: true, format: { with: /[MTWRF]{2,3} \d{1,2}:\d{2}-\d{1,2}:\d{2}/ }
+  validates :name, :presence => true
+  validates :daytime, presence: true, format: { with: /[MTWRF]{1,3} \d{1,2}:\d{2}-\d{1,2}:\d{2}/ }
 
   has_and_belongs_to_many :students, -> { where(admin: false) }, class_name: "User",
       after_add: :create_coldcall, after_remove: :remove_coldcall
@@ -54,9 +54,8 @@ class Course < ApplicationRecord
   end
 
   def now?
-    m = self.daytime.match(/([MTWRF]{2,3}) (\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/)
+    m = self.daytime.match(/([MTWRF]{1,3}) (\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})/)
     return false unless m
-
     dow = %w{Su M T W R F Sa}
     n = Time.now
     day = dow[n.wday]
